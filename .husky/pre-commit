@@ -1,0 +1,5 @@
+make generate
+
+make lint-staged
+
+git update-index --again

@@ -1,0 +1,37 @@
+---
+paths:
+  - "**/*.tsx"
+  - "**/*.ts"
+---
+
+# Forms
+
+- Build every form with the app's `useAppForm` (`src/components/form/app-form.tsx`), never raw `@tanstack/react-form`.
+- Pass per-form `defaultValues` and `validators` (a zod schema from `domain`).
+- Reuse the existing bound inputs (`TextField`, `SubmitButton`...) via `form.AppField` / `form.AppForm`.
+- Missing an input? Add it to `src/components/form/` and register it in `app-form.tsx`, never inline a one-off input in an app.
+- Every bound input caps its own control at `sm:max-w-72`, on top of the `FieldRow` column width, so a new input carries that cap too.
+
+## Required marker
+
+- A required field carries a trailing "\*" in its label, in text, never color alone.
+- A conditional requirement adds the marker the moment it starts to hold and drops it when it stops (`withRequired`).
+- A group label (date range, typed-contact legend) carries no "\*", its fields do.
+
+## Dependent fields
+
+A field meaningless until a sibling is filled (a unit without its value):
+
+- Hide it until the sibling is set.
+- Mark it required once shown, gated by the same helper as its render.
+- Have the schema reject its value while the sibling is missing.
+- Gate the render and the compose exclusion on one shared helper, never two expressions that happen to agree.
+
+## Hidden values
+
+Values hidden by UI state (a field for the other branch of a toggle, a tab hidden by another value):
+
+- While editing, keep them in the form store, so switching back restores what the user entered.
+- On save, exclude them in the compose step before validation, so a hidden value never raises a schema error the user cannot see or fix.
+- After a successful save, reset the form to the draft rebuilt from the submitted value, so dropped leftovers do not look saved.
+- Every rule that hides a field needs its matching exclusion in the compose step, or save becomes a silent noop.

@@ -1,0 +1,22 @@
+{
+  "id": "pnpm",
+  "version": "1.0.0",
+  "name": "PNPM",
+  "postCreateCommand": "pnpm install",
+  "containerEnv": {
+    "pnpm_config_store_dir": "/workspaces/remix-v3-demo/node_modules/.pnpm-store"
+  },
+  "installsAfter": ["ghcr.io/devcontainers/features/common-utils:1"],
+  "mounts": [
+    {
+      "type": "volume",
+      "source": "${devcontainerId}-node-modules",
+      "target": "/workspaces/remix-v3-demo/node_modules"
+    },
+    {
+      "type": "volume",
+      "source": "${devcontainerId}-pnpm",
+      "target": "/mnt/pnpm"
+    }
+  ]
+}

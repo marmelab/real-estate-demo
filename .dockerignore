@@ -1,0 +1,9 @@
+**/node_modules
+.git
+**/dist
+**/.output
+**/.nitro
+**/.vite
+**/.tanstack
+**/test-results
+**/playwright-report
