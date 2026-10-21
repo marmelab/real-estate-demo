@@ -1,10 +1,9 @@
 ---
 paths:
-  - "**/*.tsx"
-  - "**/*.ts"
+  - "packages/frontend-tanstack/**"
 ---
 
-# Forms
+# Forms (TanStack)
 
 - Build every form with the app's `useAppForm` (`src/components/form/app-form.tsx`), never raw `@tanstack/react-form`.
 - Pass per-form `defaultValues` and `validators` (a zod schema from `domain`).

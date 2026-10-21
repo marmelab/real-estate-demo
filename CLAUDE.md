@@ -32,9 +32,10 @@
 - `pnpm test`: Vitest tests headless (`test:watch` watch), for every package but `frontend-remix`.
 - `pnpm test --project @remix-v3-demo/<project>`: one Vitest project's tests.
 - `pnpm -F @remix-v3-demo/frontend-remix test`: the Remix app's tests, run by `remix test`.
+- `pnpm -F @remix-v3-demo/frontend-remix typecheck`: typecheck the Remix app, which Vitest never compiles.
 - `pnpm lint:apply` / `lint:check`: lint with/without writing fixes.
 - `pnpm fmt:apply` / `fmt:check`: format with/without writing fixes.
-- `make test-e2e`: throwaway prod stack + Playwright e2e, torn down after; it needs Docker, so run it on the host, not in the devcontainer.
+- `pnpm -F @remix-v3-demo/<app> run deploy`: deploy an app to Cloudflare Workers, it must be `run` since `pnpm deploy` is a built-in.
 
 ## Services (dev)
 

@@ -9,7 +9,7 @@ description: Builds, reviews, and refactors Remix 3 apps using the remix package
 
 Read the relevant installed documentation before using unfamiliar Remix APIs:
 
-1. Read the app's `AGENTS.md`, `package.json`, and `tsconfig.json`, then inspect the code that owns the behavior being changed.
+1. Read `.claude/rules/frontend-remix.md`, the app's `package.json`, and `tsconfig.json`, then inspect the code that owns the behavior being changed.
 2. Search `node_modules/remix/INDEX.md` by task, export, or keyword, for example `grep -i 'session' node_modules/remix/INDEX.md`.
 3. Follow the index to the relevant guide for the workflow, then the package README for exact imports, options, behavior, and examples. If there is no relevant guide, use the API README and existing app patterns.
 

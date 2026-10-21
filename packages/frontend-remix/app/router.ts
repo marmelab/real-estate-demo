@@ -2,12 +2,17 @@ import { render } from "remix/middleware/render";
 import { staticFiles } from "remix/middleware/static";
 import { createRouter, type MiddlewareContext } from "remix/router";
 
+import { assets } from "#assets";
+
 import controller from "./actions/controller.tsx";
-import { assets } from "./assets.ts";
+import { securityHeaders } from "./middleware/security-headers.ts";
 import { routes } from "./routes.ts";
 
+const securityHeadersMiddleware = securityHeaders();
 const renderMiddleware = render({ assets });
-type AppContext = MiddlewareContext<[typeof renderMiddleware]>;
+type AppContext = MiddlewareContext<
+  [typeof securityHeadersMiddleware, typeof renderMiddleware]
+>;
 
 declare module "remix" {
   interface RouterTypes {
@@ -16,7 +21,11 @@ declare module "remix" {
 }
 
 export const router = createRouter<AppContext>({
-  middleware: [staticFiles("./public", { index: false }), renderMiddleware],
+  middleware: [
+    securityHeadersMiddleware,
+    staticFiles("./public", { index: false }),
+    renderMiddleware,
+  ],
 });
 
 router.map(routes, controller);

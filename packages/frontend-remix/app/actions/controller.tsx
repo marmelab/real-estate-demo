@@ -1,6 +1,8 @@
 import { createController } from "remix/router";
 
-import { assets } from "../assets.ts";
+import { assets } from "#assets";
+
+import { Nonce } from "../middleware/security-headers.ts";
 import { routes } from "../routes.ts";
 import { Document } from "./document.tsx";
 
@@ -13,7 +15,7 @@ export default createController(routes, {
       );
     },
     home(context) {
-      return context.render(<Document />);
+      return context.render(<Document nonce={context.get(Nonce)} />);
     },
   },
 });
