@@ -50,7 +50,6 @@ Take the size from the approved plan (the BA's, or yours when it was skipped), b
 
 - Add `security-reviewer` at any size when the diff touches RLS, auth, or secrets.
 - Add `doc-specialist` only when the ticket changes user-visible behavior or a public contract.
-- No role walks the e2e tests as a persona, so do it yourself at the gate, whatever the size.
 - Re-size the moment the diff outgrows your criteria (a second package, a new entity, endpoint, migration, or auth surface) and run the chain you now owe, the only thing catching a wrong `S` that skipped the BA.
 - The plan's type sets `$TYPE`, and its refinements, edge cases and test suite are the task specs' backbone.
 - State the size and chain in one line before proceeding.
@@ -95,12 +94,9 @@ Take the size from the approved plan (the BA's, or yours when it was skipped), b
 
 ### 7. Commit gate, once
 
-- Run `pnpm lint:check`, `pnpm fmt:check`, `pnpm test`.
-- Run `make test-e2e` when the ticket changed runtime code (`frontend-tanstack`, `frontend-remix`, or what they consume) per `testing.md`, skipping it only with no runtime surface and saying so.
-- Walk the ticket's e2e tests yourself and report each.
+- Run `pnpm lint:check`, `pnpm fmt:check`, `pnpm test`, `pnpm -F @remix-v3-demo/frontend-remix test`.
 - Confirm `git status --porcelain` is empty, committing any leftover changeset as itself.
 - A failing gate goes back to its developer, whose fix is another commit, since you never commit red.
-- Sandbox caveat: report a flaky e2e stack and let the user decide, rather than blocking forever.
 
 ### 8. Summary
 

@@ -7,7 +7,7 @@ paths:
 
 # Frontend Security
 
-For the apps served to the browser (`frontend-tanstack`, `frontend-remix`); response headers and CSP live in infra config.
+For the apps served to the browser (`frontend-tanstack`, `frontend-remix`); response headers and CSP follow [security-infra.md](security-infra.md).
 
 - Never inject unsanitized HTML, and avoid `innerHTML` and `dangerouslySetInnerHTML`.
 - Sanitize user-generated HTML with a vetted local sanitizer when it is unavoidable.

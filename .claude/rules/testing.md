@@ -6,11 +6,6 @@ paths:
 
 # Testing
 
-## E2E before ending a session
-
-- Changed app code (`frontend-tanstack`, `frontend-remix`, or what they consume from `domain`)? Run `make test-e2e` and report the verdict.
-- Skip only for changes with no runtime surface.
-
 ## What to test
 
 - Every behavior a user or a cross-file caller depends on: untested behavior does not ship.

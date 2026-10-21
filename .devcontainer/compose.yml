@@ -47,7 +47,11 @@ services:
     image: supabase/studio:2026.10.12-sha-3699278
     network_mode: service:workspace
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:54323/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})\""]
+      test:
+        [
+          "CMD-SHELL",
+          'node -e "fetch(''http://localhost:54323/api/platform/profile'').then((r) => {if (r.status !== 200) throw new Error(r.status)})"',
+        ]
       timeout: 10s
       interval: 5s
       retries: 3
@@ -75,7 +79,15 @@ services:
   auth:
     image: supabase/gotrue:v2.197.0
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9999/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9999/health",
+        ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -150,7 +162,14 @@ services:
       PGDATABASE: postgres
       POSTGRES_DB: postgres
       JWT_EXP: 3600
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf", "-c", "log_min_messages=fatal"]
+    command:
+      [
+        "postgres",
+        "-c",
+        "config_file=/etc/postgresql/postgresql.conf",
+        "-c",
+        "log_min_messages=fatal",
+      ]
     volumes:
       # Creates supabase_functions_admin, which roles.sql needs.
       - ./supabase/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:ro

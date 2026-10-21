@@ -1,5 +1,5 @@
 # Trimmed from https://github.com/supabase/supabase/blob/master/docker/volumes/api/kong.yml to the services in compose.yml.
-_format_version: '2.1'
+_format_version: "2.1"
 _transform: true
 
 consumers:

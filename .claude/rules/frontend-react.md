@@ -34,7 +34,7 @@ paths:
 - `setupRouterSsrQueryIntegration` provides and hydrates the client: never add a second provider or dehydrate by hand.
 - Client state: React Context with useState/useReducer.
 - URL state: search params and route segments.
-- Form state: @tanstack/react-form via `useAppForm` (see [forms.md](forms.md)).
+- Form state: @tanstack/react-form via `useAppForm` (see [forms-react.md](forms-react.md)).
 - A value not submitted to the API is derivable: keep it in component state, re-derived from the form values on mount.
 - Never reach for a global state manager; keep state local and lift to Context only when genuinely shared across distant components.
 

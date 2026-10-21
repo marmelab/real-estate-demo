@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:cloudflare": "NITRO_PRESET=cloudflare_module vite build",
+    "deploy": "pnpm build:cloudflare && wrangler deploy",
     "generate-routes": "tsr generate",
     "start": "node .output/server/index.mjs"
   },

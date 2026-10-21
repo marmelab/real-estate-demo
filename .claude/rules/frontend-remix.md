@@ -1,0 +1,28 @@
+---
+paths:
+  - "packages/frontend-remix/**"
+---
+
+# Remix app
+
+`frontend-remix` was scaffolded with `remix new`; use the `remix` skill for the mental model and the installed docs.
+
+## Layout
+
+- `app/routes.ts` is the route contract shared by server and browser modules, giving type-safe hrefs.
+- `app/router.ts` wires routes to controllers and installs the middleware and the component renderer.
+- Put top-level route actions in `app/actions/controller.tsx`, and a nested route map's in `app/actions/<route-key>/controller.tsx`.
+- `app/actions/document.tsx` renders the document shell, with one `<main>` wrapping each page.
+- `app/**/public/` is the browser-reachable source boundary: keep secrets and trusted server logic out of it.
+- `app/actions/public/entry.ts` is the browser runtime entry.
+- Root `public/` holds static files served unchanged from the app root.
+- `app/middleware/security-headers.ts` sets the security headers and, in production, a CSP with a per-request script nonce.
+- Add `app/data/`, `app/ui/` and the like only once a second route needs them.
+
+## Assets and Workers
+
+- Import the asset server through `#assets`, never `./assets.ts` directly.
+- `#assets` maps to `app/assets.ts` on Node and to the `dist/assets.js` that `build-cloudflare.ts` pre-builds under the `workerd` condition.
+- `worker.ts` is the Cloudflare Workers entry, and `wrangler.jsonc` names the Worker and serves `public/` as static assets.
+- A `clientEntry(import.meta.url, ...)` component does not hydrate on Workers yet, as bundling loses `import.meta.url`.
+- A new script tag in the document carries the request nonce, or the production CSP blocks it.

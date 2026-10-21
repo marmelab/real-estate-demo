@@ -4,11 +4,15 @@ paths:
   - ".devcontainer/compose.yml"
   - "**/Dockerfile"
   - "**/*.conf"
+  - "**/wrangler.json*"
+  - "**/security-headers.ts"
+  - "**/content-security-policy.ts"
 ---
 
 # Infra Security
 
-Response headers apply at the edge (reverse proxy / CDN / static host) across all responses, so they live in infra config, not app code.
+- Response headers apply at the edge across all responses.
+- On Cloudflare Workers the app is the edge, so each app sets them itself (Remix middleware, TanStack Nitro `routeRules` and Start middleware) and in the static assets' `_headers`.
 
 ## Service exposure
 
