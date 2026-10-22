@@ -16,11 +16,11 @@ export function ListingPhoto(
           <p class="eyebrow text-gray-400">Photos sur demande</p>
         </div>
         {image && (
-          <img
-            src={image.url}
-            alt=""
-            loading="lazy"
-            class="absolute inset-0 size-full object-cover"
+          <div
+            role="img"
+            aria-label={image.alt}
+            style={{ backgroundImage: `url(${JSON.stringify(image.url)})` }}
+            class="absolute inset-0 bg-cover bg-center"
           />
         )}
       </div>

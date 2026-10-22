@@ -23,7 +23,7 @@ declare module "remix" {
 export const router = createRouter<AppContext>({
   middleware: [
     securityHeadersMiddleware,
-    staticFiles("./public", { index: false }),
+    staticFiles("./public", { index: false, cacheControl: "no-cache" }),
     renderMiddleware,
   ],
 });

@@ -5,7 +5,7 @@ import { formatAddress } from "@remix-v3-demo/domain/listing/format-address";
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
 import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
 
-import { ListingPhoto } from "./listing-photo.tsx";
+import { ListingGallery } from "./listing-gallery.tsx";
 import { searchHref } from "./search-href.ts";
 
 export function ListingView(handle: Handle<{ listing: Listing }>) {
@@ -43,20 +43,7 @@ export function ListingView(handle: Handle<{ listing: Listing }>) {
             </p>
           </div>
         </div>
-        {listing.images.length === 0 ? (
-          <ListingPhoto
-            image={null}
-            class="border-obsidian-700 aspect-[4/3] w-full border md:aspect-[16/7]"
-          />
-        ) : (
-          <ul class="border-obsidian-700 bg-obsidian-950 flex snap-x snap-mandatory gap-3 overflow-x-auto border p-1 md:grid md:grid-cols-2 md:overflow-visible">
-            {listing.images.map((image) => (
-              <li key={image.url} class="w-full shrink-0 snap-start">
-                <ListingPhoto image={image} class="aspect-[4/3] w-full" />
-              </li>
-            ))}
-          </ul>
-        )}
+        <ListingGallery images={listing.images} />
         <dl class="border-obsidian-700 bg-obsidian-800 grid grid-cols-2 gap-4 border p-5 text-center sm:grid-cols-3 lg:grid-cols-6">
           {facts.map(([label, value]) => (
             <div key={String(label)} class="flex flex-col gap-1">

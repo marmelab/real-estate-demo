@@ -20,7 +20,7 @@ export function ListingCard(handle: Handle<{ listing: ListingSummary }>) {
         href={routes.listing.href({ listingId: String(listing.id) })}
         class="group border-obsidian-600 bg-obsidian-800 hover:border-gold focus-visible:outline-gold flex w-full flex-col border transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
       >
-        <div class="border-obsidian-700 relative border-b">
+        <div class="border-obsidian-700 relative overflow-hidden border-b">
           <ListingPhoto
             image={listing.image}
             class="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
