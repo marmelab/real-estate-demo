@@ -21,8 +21,8 @@ begin
       raise exception 'anon must see exactly the published listings';
     end if;
     begin
-      insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-      values ('Anon insert', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
+      insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+      values ('Anon insert', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
       raise exception 'anon insert must be rejected';
     exception when insufficient_privilege then null;
     end;
@@ -37,8 +37,8 @@ begin
       raise exception 'non-manager must not see unpublished listings';
     end if;
     begin
-      insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-      values ('User insert', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
+      insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+      values ('User insert', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
       raise exception 'non-manager insert must be rejected';
     exception when insufficient_privilege then null;
     end;
@@ -65,11 +65,11 @@ begin
     if not exists (select 1 from public.listing where not published) then
       raise exception 'agent must see the unpublished listing';
     end if;
-    insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-    values ('Agent draft', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
+    insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+    values ('Agent draft', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522);
     begin
-      insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, published, latitude, longitude)
-      values ('Agent published', 'sale', 'house', 100000, '75001', 'Paris', '75', true, 48.8566, 2.3522);
+      insert into public.listing (title, property_type, price, postal_code, city, department_code, published, latitude, longitude)
+      values ('Agent published', 'house', 100000, '75001', 'Paris', '75', true, 48.8566, 2.3522);
       raise exception 'agent insert of a published listing must be rejected';
     exception when insufficient_privilege then null;
     end;
@@ -98,8 +98,8 @@ begin
     if not exists (select 1 from public.listing where not published) then
       raise exception 'manager must see the unpublished listing';
     end if;
-    insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-    values ('Manager insert', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522)
+    insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+    values ('Manager insert', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522)
     returning id into new_id;
     update public.listing set price = 200000 where id = new_id;
     get diagnostics affected = row_count;
@@ -140,15 +140,15 @@ begin
       ) as t(label, title, price, postal_code, department_code, latitude, longitude)
     loop
       begin
-        insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-        values (bad.title, 'sale', 'house', bad.price, bad.postal_code, 'Paris', bad.department_code, bad.latitude, bad.longitude);
+        insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+        values (bad.title, 'house', bad.price, bad.postal_code, 'Paris', bad.department_code, bad.latitude, bad.longitude);
         raise exception 'insert with % must fail its check constraint', bad.label;
       exception when check_violation then null;
       end;
     end loop;
     begin
-      insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, longitude)
-      values ('Title', 'sale', 'house', 100000, '75001', 'Paris', '75', 2.3522);
+      insert into public.listing (title, property_type, price, postal_code, city, department_code, longitude)
+      values ('Title', 'house', 100000, '75001', 'Paris', '75', 2.3522);
       raise exception 'insert without latitude must fail not null';
     exception when not_null_violation then null;
     end;

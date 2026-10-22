@@ -12,6 +12,9 @@ paths:
 - Keep the Supabase CLI's ports (54321 API, 54322 db, 54323 Studio): kong, studio and db share the workspace network, so `localhost` reaches them from the workspace, its browsers and the forwarded host ports.
 - The apps run as `frontend-*` services on `node:26-trixie` (glibc, like the workspace, for the shared `node_modules` native binaries) with `npm run dev`, the image having no pnpm.
 - They share the workspace network and restart until `make install` has filled `node_modules`.
+- They mount the workspace with `volumes_from: [workspace]`, since the pnpm feature's `node_modules` volume exists only on the workspace container.
+- Reset the local database with `pnpm exec supabase db reset --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable' --yes`.
+- If PostgREST still serves an old schema after a reset, restart the `rest` service from the host.
 - Other services reach Postgres at `db:54322`, `db` being an alias of the workspace network.
 - Persist per-user CLI state in a `${devcontainerId}-<name>` volume under `mounts`, pre-creating its target in the `Dockerfile` so `node` owns it.
 - The `~/.supabase` volume keeps the Supabase CLI login, while `supabase link` state lives in the repo's `supabase/.temp/`.

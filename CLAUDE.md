@@ -3,8 +3,12 @@
 ## Domain
 
 - A real estate agency website with basic features, built twice: once in React with TanStack Start, once in Remix v3.
-- **Listing**: a property the agency offers.
-- **Search**: visitors find listings by location, such as a geographical zone or a city.
+- **Keyhaven**: a high-end agency selling premium residences in Paris, Lyon, Nice and Cannes only.
+- **Listing**: an apartment or a house the agency sells; there is no rental, land or commercial property.
+- **Search**: visitors find listings by city, then refine with facets (budget, property type, bedrooms, rooms, surface, DPE).
+- `/` is the landing page, searching by city and max price; `/search` shows the results with facets.
+- `/immobilier/$city` is an SEO page per target city (Paris, Lyon, Nice, Cannes), listed in `domain` as `TARGET_CITIES`.
+- It is a demo: `robots.txt` disallows every crawler, while pages stay SSR with head meta.
 
 ## Packages
 
@@ -21,7 +25,10 @@
 - Use the `ponytail` skill: the laziest solution that works (YAGNI, stdlib and native before dependencies, shortest correct diff).
 - Read a package's docs with Context7 before using or configuring it, never from memory.
 - Use the `remix` skill for Remix code: the installed `node_modules/remix/INDEX.md` docs are canonical.
-- English only, no i18n: write user-facing copy directly in the code.
+- User-facing copy is French, written directly in the code, no i18n: the site targets France only.
+- Code, comments, docs and rules stay in English.
+- Format prices with `fr-FR` (`890 000 €`).
+- No E2E tests: this is a toy project, Vitest only.
 - Add a form field with the `add-domain-entity` then `add-admin-component` skills.
 
 ## Commands

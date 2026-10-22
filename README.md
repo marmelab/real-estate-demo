@@ -2,7 +2,8 @@
 
 The same real estate agency website built twice, to compare React with TanStack Start against Remix v3.
 
-- Visitors browse listings and search them by location (a geographical zone or a city).
+- Keyhaven, a high-end agency selling apartments and houses in Paris, Lyon, Nice and Cannes, with French copy.
+- Visitors search listings by city and budget, then refine them with facets.
 - Admins manage listings from an admin section.
 - Both apps share one Supabase backend and one `domain` package.
 
@@ -17,6 +18,7 @@ The same real estate agency website built twice, to compare React with TanStack 
 - Supabase is the backend, and Postgres RLS policies are the trust boundary, never app code.
 - Both apps are styled with Tailwind CSS 4.
 - The apps never query Supabase directly: they call the `domain` data-access functions.
+- `domain` is imported by subpath (`@remix-v3-demo/domain/listing/list-listings`), and `listing/` holds the model, validators, `list-listings`, `get-listing-by-id`, `get-listing-image`, the target cities and the price and address formatters.
 
 ## Getting started
 
@@ -45,7 +47,7 @@ The anon and service_role keys are in `.devcontainer/compose.yml`. They are publ
 - After a schema change, PostgREST may need a restart of the `rest` container to reload its schema cache.
 - Generate a migration with `pnpm exec supabase db schema declarative sync -f <name>`, which needs Docker, so run it on the host.
 - Apply migrations and the seed locally with `pnpm exec supabase db push --include-seed --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable'`, where `sslmode=disable` is required.
-- Run the SQL tests with `pnpm exec supabase db query --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable' -f supabase/tests/listing.sql`; they roll back.
+- Run each SQL test with `pnpm exec supabase db query --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable' -f supabase/tests/<file>.sql`; they roll back.
 - Staff roles (`manager`, `agent`) live in the JWT `app_metadata.role`, see [ADR 0001](docs/adr/0001-staff-roles-in-jwt-app-metadata.md).
 - The seed creates `manager@example.com` and `agent@example.com`, both with password `password`, for local use only.
 - Promote a user by setting `agent.role`, for example `update public.agent set role = 'manager' where id = '...';`, which a trigger syncs into the JWT claim.
@@ -76,6 +78,12 @@ Append files or args to a `pnpm` script, e.g. `pnpm test path/to/file`.
 - `src/router.tsx` creates one QueryClient per router, so SSR requests never share cached data.
 - Route loaders prefetch with `context.queryClient`, and the SSR query integration hydrates the browser cache.
 - TanStack Devtools (Query and Router panels) show in dev and are stripped from the production build.
+- `/` is the landing page: city and max price, plus links to the city pages.
+- `/search` lists the matching listings, 12 per page, with facets: budget, property type, surface, rooms, bedrooms and DPE.
+- `/immobilier/$city` is a server-rendered SEO page per target city, with its own intro and listings.
+- `/listings/$listingId` is the server-rendered listing detail page, with head meta.
+- Server functions call `domain` with an anon Supabase client built from `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, set in `.devcontainer/compose.yml` for dev.
+- `public/robots.txt` disallows all crawlers, since this is a demo site.
 - `pnpm build` then `pnpm start` runs the production server.
 
 ### frontend-remix

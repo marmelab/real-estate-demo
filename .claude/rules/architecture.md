@@ -18,6 +18,7 @@
 ## Database schema
 
 - Edit `supabase/schemas/`, the source of truth, never a migration alone.
+- Never edit a migration already applied anywhere: add a new one, or the databases that ran the old version drift silently.
 - Generate migrations with `pnpm exec supabase db schema declarative sync -f <name>`.
 - Without Docker, hand-write the migration byte-identical to the schema change.
 - Staff roles come from the JWT `app_metadata.role`, read through `public.is_manager()` and `public.is_staff()` in RLS policies.

@@ -11,6 +11,8 @@
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
+    "@remix-v3-demo/domain": "workspace:*",
+    "@supabase/supabase-js": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
@@ -19,7 +21,8 @@
     "nitro": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/vite": "catalog:",
