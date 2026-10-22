@@ -16,9 +16,10 @@
 - TDD: failing test first.
 - Shared logic and Supabase data access in `domain`, authz in RLS.
 - No new dependency without the user's go-ahead.
-- One commit per changeset and never a squash: the developers commit their tasks and fix rounds, you commit the docs.
+- One commit per changeset while the pipeline runs: the developers commit their tasks and fix rounds, you commit the docs.
+- Once the commit gate passes, you squash the ticket's commits into one (step 7).
 - Conventional Commit messages (`<type>: <summary>`, `type` = `$TYPE`, `docs` for docs), respecting `attribution` in `.claude/settings.json`.
-- Never rewrite history, never push, never commit to `main`, collapsing the branch being the human's call.
+- Never rewrite history beyond that squash, never push, never commit to `main`.
 - Never switch, create, or merge a branch beyond step 1, the human owning the branch you were handed.
 
 ### Unexpected complication
@@ -97,11 +98,12 @@ Take the size from the approved plan (the BA's, or yours when it was skipped), b
 - Run `pnpm lint:check`, `pnpm fmt:check`, `pnpm test`, `pnpm -F @remix-v3-demo/frontend-remix test`.
 - Confirm `git status --porcelain` is empty, committing any leftover changeset as itself.
 - A failing gate goes back to its developer, whose fix is another commit, since you never commit red.
+- Once green, squash `$BASE..HEAD` into one `$TYPE: <ticket summary>` commit with `git reset --soft $BASE` then `git commit`, the body listing what shipped.
 
 ### 8. Summary
 
 - The size and chain you ran.
 - What shipped: tests added, ADRs, docs.
-- The commits added (`git log --oneline $BASE..`), on the branch you were handed.
-- Follow-ups, pushing and squashing being theirs.
-- The `tasks/` dir vanishes at session end, while the commits persist.
+- The squashed commit (`git log --oneline $BASE..`), on the branch you were handed.
+- Follow-ups, pushing being theirs.
+- The `tasks/` dir vanishes at session end, while the commit persists.

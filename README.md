@@ -38,6 +38,19 @@ Supabase runs from `.devcontainer/compose.yml` on the Supabase CLI ports, forwar
 
 The anon and service_role keys are in `.devcontainer/compose.yml`. They are public dev-only values, never to be reused elsewhere.
 
+#### Schema
+
+- `supabase/schemas/` is the source of truth for the tables and RLS policies, documented in [docs/database.md](docs/database.md).
+- Supabase Storage runs in the devcontainer beside the other services.
+- After a schema change, PostgREST may need a restart of the `rest` container to reload its schema cache.
+- Generate a migration with `pnpm exec supabase db schema declarative sync -f <name>`, which needs Docker, so run it on the host.
+- Apply migrations and the seed locally with `pnpm exec supabase db push --include-seed --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable'`, where `sslmode=disable` is required.
+- Run the SQL tests with `pnpm exec supabase db query --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable' -f supabase/tests/listing.sql`; they roll back.
+- Staff roles (`manager`, `agent`) live in the JWT `app_metadata.role`, see [ADR 0001](docs/adr/0001-staff-roles-in-jwt-app-metadata.md).
+- The seed creates `manager@example.com` and `agent@example.com`, both with password `password`, for local use only.
+- Promote a user by setting `agent.role`, for example `update public.agent set role = 'manager' where id = '...';`, which a trigger syncs into the JWT claim.
+- The user must sign in again to get the new role.
+
 ## Commands
 
 Run from the repository root.
