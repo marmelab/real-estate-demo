@@ -18,7 +18,7 @@ export async function getListingById(
   const { data, error } = await client
     .from("listing")
     .select(
-      "id, title, description, price, transactionType:transaction_type, propertyType:property_type, surfaceArea:surface_area, landArea:land_area, rooms, bedrooms, energyClass:energy_class, address, city, postalCode:postal_code, images:listing_image(path, alt), agent(firstName:first_name, lastName:last_name)",
+      "id, title, description, price, propertyType:property_type, surfaceArea:surface_area, landArea:land_area, rooms, bedrooms, energyClass:energy_class, address, city, postalCode:postal_code, images:listing_image(path, alt), agent(firstName:first_name, lastName:last_name)",
     )
     .eq("id", id)
     .eq("published", true)

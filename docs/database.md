@@ -5,8 +5,10 @@
 - The backend is Supabase Postgres, with RLS as the trust boundary.
 - `supabase/schemas/` holds the declarative source of truth: `roles.sql`, `agent.sql`, `listing.sql`, `listing-image.sql` and `storage.sql`.
 - Files are not order-numbered, since pg-delta resolves the dependencies between them.
-- `supabase/migrations/20261022084329_create_schema.sql` is the single migration.
-- It is the schema files plus a migration-only tail: the two bucket inserts, and a guarded revoke of `execute` on the platform's `rls_auto_enable()`.
+- `supabase/migrations/20261022084329_create_schema.sql` is the initial migration.
+- It is the schema files at that point plus a migration-only tail: the two bucket inserts, and a guarded revoke of `execute` on the platform's `rls_auto_enable()`.
+- `20261022120000_remove_listing_transaction_type.sql` drops `listing.transaction_type` and its enum, since the agency only sells.
+- `20261022130000_restrict_listing_property_type.sql` restricts `listing_property_type` to `house` and `apartment`, deleting listings of the removed types.
 - `supabase/seed.sql` adds two local users, `manager@example.com` and `agent@example.com`, both with password `password`, plus sample agents, listings and images.
 - `supabase/tests/*.sql` are the SQL tests, see the README.
 - Role changes reach the JWT at the next token refresh, so the user may need to sign in again.
@@ -14,8 +16,7 @@
 ## Enums
 
 - `agent_role`: `manager`, `agent`.
-- `listing_transaction_type`: `sale`, `rent`.
-- `listing_property_type`: `house`, `apartment`, `land`, `commercial`.
+- `listing_property_type`: `house`, `apartment`.
 - `listing_energy_class`: `A`, `B`, `C`, `D`, `E`, `F`, `G`, the French DPE energy label.
 
 ## Tables
@@ -42,28 +43,27 @@ Triggers:
 
 A property the agency offers.
 
-| Column             | Type                       | Null | Default  | Meaning                                                    |
-| ------------------ | -------------------------- | ---- | -------- | ---------------------------------------------------------- |
-| `id`               | `bigint`                   | no   | identity | Primary key                                                |
-| `title`            | `text`                     | no   |          | 1 to 200 characters                                        |
-| `description`      | `text`                     | no   | `''`     | Up to 5000 characters                                      |
-| `transaction_type` | `listing_transaction_type` | no   |          | `sale` or `rent`                                           |
-| `property_type`    | `listing_property_type`    | no   |          |                                                            |
-| `price`            | `integer`                  | no   |          | Greater than 0, whole euros, monthly rent charges included |
-| `surface_area`     | `integer`                  | yes  |          | Greater than 0, m2, loi Carrez surface                     |
-| `land_area`        | `integer`                  | yes  |          | Greater than 0, m2                                         |
-| `rooms`            | `smallint`                 | yes  |          | At least 0, pieces                                         |
-| `bedrooms`         | `smallint`                 | yes  |          | At least 0                                                 |
-| `energy_class`     | `listing_energy_class`     | yes  |          | DPE label                                                  |
-| `address`          | `text`                     | no   | `''`     | Street address                                             |
-| `postal_code`      | `text`                     | no   |          | Five digits                                                |
-| `city`             | `text`                     | no   |          |                                                            |
-| `department_code`  | `text`                     | no   |          | `01` to `95` without `20`, `2A`, `2B`, or `971` to `976`   |
-| `latitude`         | `double precision`         | no   |          | Between -90 and 90                                         |
-| `longitude`        | `double precision`         | no   |          | Between -180 and 180                                       |
-| `published`        | `boolean`                  | no   | `false`  | Visible to the public when true                            |
-| `created_at`       | `timestamptz`              | no   | `now()`  |                                                            |
-| `agent_id`         | `uuid`                     | yes  |          | References `agent`, set null on delete                     |
+| Column            | Type                    | Null | Default  | Meaning                                                  |
+| ----------------- | ----------------------- | ---- | -------- | -------------------------------------------------------- |
+| `id`              | `bigint`                | no   | identity | Primary key                                              |
+| `title`           | `text`                  | no   |          | 1 to 200 characters                                      |
+| `description`     | `text`                  | no   | `''`     | Up to 5000 characters                                    |
+| `property_type`   | `listing_property_type` | no   |          |                                                          |
+| `price`           | `integer`               | no   |          | Greater than 0, whole euros, sale price                  |
+| `surface_area`    | `integer`               | yes  |          | Greater than 0, m2, loi Carrez surface                   |
+| `land_area`       | `integer`               | yes  |          | Greater than 0, m2                                       |
+| `rooms`           | `smallint`              | yes  |          | At least 0, pieces                                       |
+| `bedrooms`        | `smallint`              | yes  |          | At least 0                                               |
+| `energy_class`    | `listing_energy_class`  | yes  |          | DPE label                                                |
+| `address`         | `text`                  | no   | `''`     | Street address                                           |
+| `postal_code`     | `text`                  | no   |          | Five digits                                              |
+| `city`            | `text`                  | no   |          |                                                          |
+| `department_code` | `text`                  | no   |          | `01` to `95` without `20`, `2A`, `2B`, or `971` to `976` |
+| `latitude`        | `double precision`      | no   |          | Between -90 and 90                                       |
+| `longitude`       | `double precision`      | no   |          | Between -180 and 180                                     |
+| `published`       | `boolean`               | no   | `false`  | Visible to the public when true                          |
+| `created_at`      | `timestamptz`           | no   | `now()`  |                                                          |
+| `agent_id`        | `uuid`                  | yes  |          | References `agent`, set null on delete                   |
 
 Indexes:
 

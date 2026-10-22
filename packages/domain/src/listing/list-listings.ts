@@ -26,17 +26,23 @@ export async function listListings(
   let request = client
     .from("listing")
     .select(
-      "id, title, price, transactionType:transaction_type, propertyType:property_type, surfaceArea:surface_area, rooms, bedrooms, city, postalCode:postal_code, images:listing_image(path, alt)",
+      "id, title, price, propertyType:property_type, surfaceArea:surface_area, rooms, bedrooms, city, postalCode:postal_code, images:listing_image(path, alt)",
       { count: "exact" },
     )
-    .eq("published", true)
-    .eq("transaction_type", query.transactionType);
+    .eq("published", true);
   if (query.city) request = request.ilike("city", `${query.city}%`);
+  if (query.propertyType) {
+    request = request.eq("property_type", query.propertyType);
+  }
   if (query.minPrice) request = request.gte("price", query.minPrice);
   if (query.maxPrice) request = request.lte("price", query.maxPrice);
   if (query.minRooms) request = request.gte("rooms", query.minRooms);
   if (query.minBedrooms) request = request.gte("bedrooms", query.minBedrooms);
   if (query.minSurface) request = request.gte("surface_area", query.minSurface);
+  if (query.maxSurface) request = request.lte("surface_area", query.maxSurface);
+  if (query.energyClasses) {
+    request = request.in("energy_class", query.energyClasses);
+  }
 
   const from = (query.page - 1) * LISTING_PAGE_SIZE;
   const { data, count, error } = await request

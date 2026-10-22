@@ -1,14 +1,6 @@
 import { z } from "zod";
 
-export const transactionTypeSchema = z.enum(["sale", "rent"]);
-export type TransactionType = z.infer<typeof transactionTypeSchema>;
-
-export const propertyTypeSchema = z.enum([
-  "house",
-  "apartment",
-  "land",
-  "commercial",
-]);
+export const propertyTypeSchema = z.enum(["house", "apartment"]);
 export type PropertyType = z.infer<typeof propertyTypeSchema>;
 
 export const energyClassSchema = z.enum(["A", "B", "C", "D", "E", "F", "G"]);
@@ -24,7 +16,6 @@ export const listingSummarySchema = z.object({
   id: z.number(),
   title: z.string(),
   price: z.number(),
-  transactionType: transactionTypeSchema,
   propertyType: propertyTypeSchema,
   surfaceArea: z.number().nullable(),
   rooms: z.number().nullable(),

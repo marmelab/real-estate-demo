@@ -6,33 +6,41 @@ import { Link } from "@tanstack/react-router";
 
 import { ListingCard } from "./listing-card.tsx";
 
-const PAGE_LINK_CLASS_NAME =
-  "flex min-h-11 items-center rounded-md border border-gray-300 bg-white px-4 font-medium text-gray-900 hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
-
 export function ListingList({
   listings,
   total,
   search,
+  isFullWidth = false,
 }: {
   listings: ListingSummary[];
   total: number;
   search: ListListingsQuery;
+  isFullWidth?: boolean;
 }) {
   const hasNextPage = search.page * LISTING_PAGE_SIZE < total;
 
   return (
-    <section aria-label="Search results" className="space-y-4">
-      <p className="text-gray-700">
-        {total} {total === 1 ? "listing" : "listings"}
+    <section aria-label="Résultats de recherche" className="space-y-8">
+      <p className="eyebrow border-gold bg-obsidian-800 inline-block border px-3 py-2">
+        {total}{" "}
+        {total <= 1 ? "résidence d'exception" : "résidences d'exception"}
       </p>
       {listings.length === 0 ? (
-        <p className="rounded-lg bg-white p-8 text-center text-gray-700">
-          No listings match your search.
-        </p>
+        <div className="space-y-3 py-20 text-center">
+          <h2 className="text-2xl font-light text-white">
+            Aucune résidence ne correspond
+          </h2>
+          <p className="mx-auto max-w-md text-sm text-gray-400">
+            Élargissez votre budget ou retirez un filtre pour découvrir d'autres
+            résidences.
+          </p>
+        </div>
       ) : (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul
+          className={`grid grid-cols-1 gap-8 md:grid-cols-2 ${isFullWidth ? "xl:grid-cols-3" : ""}`}
+        >
           {listings.map((listing) => (
-            <li key={listing.id}>
+            <li key={listing.id} className="flex">
               <ListingCard listing={listing} />
             </li>
           ))}
@@ -42,22 +50,22 @@ export function ListingList({
         <nav aria-label="Pagination" className="flex justify-between gap-4">
           {search.page > 1 ? (
             <Link
-              to="/"
+              to="/search"
               search={{ ...search, page: search.page - 1 }}
-              className={PAGE_LINK_CLASS_NAME}
+              className="button-outline"
             >
-              Previous
+              Précédent
             </Link>
           ) : (
             <span />
           )}
           {hasNextPage && (
             <Link
-              to="/"
+              to="/search"
               search={{ ...search, page: search.page + 1 }}
-              className={PAGE_LINK_CLASS_NAME}
+              className="button-outline"
             >
-              Next
+              Suivant
             </Link>
           )}
         </nav>

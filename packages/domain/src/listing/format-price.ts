@@ -1,15 +1,9 @@
-import type { TransactionType } from "./model.ts";
-
-const priceFormat = new Intl.NumberFormat("en", {
+const priceFormat = new Intl.NumberFormat("fr-FR", {
   style: "currency",
   currency: "EUR",
   maximumFractionDigits: 0,
 });
 
-export function formatPrice(
-  price: number,
-  transactionType: TransactionType,
-): string {
-  const formatted = priceFormat.format(price);
-  return transactionType === "rent" ? `${formatted}/month` : formatted;
+export function formatPrice(price: number): string {
+  return priceFormat.format(price);
 }

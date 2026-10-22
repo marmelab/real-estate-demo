@@ -13,9 +13,8 @@ import { ListingCard } from "./listing-card.tsx";
 
 const listing: ListingSummary = {
   id: 3,
-  title: "Family house in Croix-Rousse",
+  title: "Hôtel particulier · Brotteaux",
   price: 640000,
-  transactionType: "sale",
   propertyType: "house",
   surfaceArea: 140,
   rooms: 6,
@@ -42,7 +41,7 @@ describe("ListingCard", () => {
     await expect
       .element(
         page.getByRole("link", {
-          name: /€640,000.*Family house in Croix-Rousse/,
+          name: /640\s000\s€.*Hôtel particulier · Brotteaux/,
         }),
       )
       .toHaveAttribute("href", "/listings/3");
@@ -50,15 +49,13 @@ describe("ListingCard", () => {
 
   it.each([
     ["no image", null],
-    ["a broken image", { url: "/missing.jpg", alt: "Front of the house" }],
+    ["a broken image", { url: "/missing.jpg", alt: "Façade de la maison" }],
   ])(
     "should show the placeholder when the listing has %s",
     async (_, image) => {
       await renderCard({ ...listing, image });
 
-      await expect
-        .element(page.getByRole("img", { name: "No photo available" }))
-        .toBeVisible();
+      await expect.element(page.getByText("Photos sur demande")).toBeVisible();
     },
   );
 });

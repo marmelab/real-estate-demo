@@ -28,7 +28,7 @@ export const Route = createFileRoute("/listings/$listingId")({
     listing
       ? {
           meta: [
-            { title: `${listing.title} | Real estate agency` },
+            { title: `${listing.title} | Keyhaven` },
             {
               name: "description",
               content: listing.description.slice(0, DESCRIPTION_MAX_LENGTH),
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/listings/$listingId")({
               : []),
           ],
         }
-      : { meta: [{ title: "Listing not found | Real estate agency" }] },
+      : { meta: [{ title: "Bien introuvable | Keyhaven" }] },
   component: ListingPage,
   notFoundComponent: ListingNotFound,
 });
@@ -49,7 +49,7 @@ function ListingPage() {
   if (!listing) throw notFound();
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4">
+    <div className="mx-auto w-full max-w-7xl px-4">
       <ListingView listing={listing} />
     </div>
   );
@@ -57,16 +57,13 @@ function ListingPage() {
 
 function ListingNotFound() {
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-4 px-4 py-12 text-center">
-      <h1 className="text-2xl font-bold text-gray-900">Listing not found</h1>
-      <p className="text-gray-700">
-        This listing does not exist or is no longer available.
+    <div className="mx-auto w-full max-w-7xl space-y-4 px-4 py-20 text-center">
+      <h1 className="text-3xl font-light text-white">Bien introuvable</h1>
+      <p className="text-gray-300">
+        Cette résidence n'existe pas ou n'est plus disponible.
       </p>
-      <Link
-        to="/"
-        className="inline-flex min-h-11 items-center font-medium text-blue-700 hover:underline focus-visible:outline-2 focus-visible:outline-blue-700"
-      >
-        Back to search
+      <Link to="/" className="button-gold">
+        Retour à la recherche
       </Link>
     </div>
   );

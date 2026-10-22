@@ -7,11 +7,11 @@ declare
   bad record;
 begin
   begin
-    insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude, published)
-    values ('Published with images', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522, true)
+    insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude, published)
+    values ('Published with images', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522, true)
     returning id into published_id;
-    insert into public.listing (title, transaction_type, property_type, price, postal_code, city, department_code, latitude, longitude)
-    values ('Draft with images', 'sale', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522)
+    insert into public.listing (title, property_type, price, postal_code, city, department_code, latitude, longitude)
+    values ('Draft with images', 'house', 100000, '75001', 'Paris', '75', 48.8566, 2.3522)
     returning id into draft_id;
     insert into public.listing_image (listing_id, path, position)
     values (published_id, published_id || '/0.jpg', 0), (draft_id, draft_id || '/0.jpg', 0);

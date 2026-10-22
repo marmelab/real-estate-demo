@@ -1,6 +1,4 @@
-create type public.listing_transaction_type as enum ('sale', 'rent');
-
-create type public.listing_property_type as enum ('house', 'apartment', 'land', 'commercial');
+create type public.listing_property_type as enum ('house', 'apartment');
 
 create type public.listing_energy_class as enum ('A', 'B', 'C', 'D', 'E', 'F', 'G');
 
@@ -8,7 +6,6 @@ create table public.listing (
   id bigint generated always as identity primary key,
   title text not null check (char_length(title) between 1 and 200),
   description text not null default '' check (char_length(description) <= 5000),
-  transaction_type public.listing_transaction_type not null,
   property_type public.listing_property_type not null,
   price integer not null check (price > 0),
   surface_area integer check (surface_area > 0),
