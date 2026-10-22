@@ -5,7 +5,7 @@
       "args": [
         "dlx",
         "@playwright/mcp@catalog:",
-        "--allowed-origins=https://marmelab.com;http://localhost:3000"
+        "--allowed-origins=https://marmelab.com;http://localhost:3000;http://localhost:4000"
       ]
     }
   }

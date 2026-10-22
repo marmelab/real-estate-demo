@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+@theme {
+  --color-gold: #c5a059;
+  --color-gold-light: #d4af37;
+  --color-obsidian-950: #070708;
+  --color-obsidian-900: #0d0d0e;
+  --color-obsidian-800: #141416;
+  --color-obsidian-700: #1e1e22;
+  --color-obsidian-600: #2a2a30;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-gold text-xs font-semibold tracking-[0.25em] uppercase;
+  }
+
+  .field-label {
+    @apply text-gold flex flex-col gap-2 text-xs font-semibold tracking-[0.15em] uppercase;
+  }
+
+  .field-input {
+    @apply border-obsidian-600 bg-obsidian-900 focus-visible:border-gold min-h-11 w-full border px-3 text-base font-normal tracking-normal text-white normal-case placeholder:text-gray-400 focus-visible:outline-none;
+  }
+
+  .button-gold {
+    @apply bg-gold text-obsidian-950 hover:bg-gold-light focus-visible:outline-gold inline-flex min-h-11 items-center justify-center gap-2 px-6 text-sm font-semibold tracking-[0.15em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .button-outline {
+    @apply border-obsidian-600 bg-obsidian-800 text-gold hover:border-gold focus-visible:outline-gold inline-flex min-h-11 items-center justify-center border px-6 text-sm tracking-[0.15em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+}

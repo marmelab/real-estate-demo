@@ -25,4 +25,5 @@ paths:
 - `#assets` maps to `app/assets.ts` on Node and to the `dist/assets.js` that `build-cloudflare.ts` pre-builds under the `workerd` condition.
 - `worker.ts` is the Cloudflare Workers entry, and `wrangler.jsonc` names the Worker and serves `public/` as static assets.
 - A `clientEntry(import.meta.url, ...)` component does not hydrate on Workers yet, as bundling loses `import.meta.url`.
+- So pages work without JavaScript: facet chips are links, the mobile filter toggle is a CSS checkbox (`peer`), and the photo placeholder sits under the `<img>`.
 - A new script tag in the document carries the request nonce, or the production CSP blocks it.

@@ -326,6 +326,12 @@ importers:
 
   packages/frontend-remix:
     dependencies:
+      '@remix-v3-demo/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@supabase/supabase-js':
+        specifier: 'catalog:'
+        version: 2.118.0
       remix:
         specifier: 'catalog:'
         version: 3.0.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(playwright@1.64.1)

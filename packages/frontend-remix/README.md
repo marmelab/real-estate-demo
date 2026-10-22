@@ -12,6 +12,14 @@ The real estate agency site in Remix v3.
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware.
 - Root `public/` contains static files served unchanged from the app root, including the generated `styles.css`.
 
+## Pages
+
+- `/` is the landing page, searching by city and max price, with links to the city pages.
+- `/search` lists the listings matching the query string, with the facet sidebar.
+- `/immobilier/:city` is the SEO page of a target city, `/listings/:listingId` a listing, and any other URL a French 404.
+- Data comes from `domain` through `app/data/supabase.ts`, an anon client built from `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`.
+- Shared UI lives in `app/ui/`, and nothing hydrates: facets are links and the mobile filter toggle is pure CSS.
+
 ## Growing The App
 
 - Put top-level route actions in `app/actions/controller.tsx`.

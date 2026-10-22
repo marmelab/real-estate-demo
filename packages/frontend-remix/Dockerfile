@@ -11,12 +11,14 @@ USER node
 
 ADD --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
 ADD --chown=node:node packages/frontend-remix/package.json /app/packages/frontend-remix/
+ADD --chown=node:node packages/domain/package.json /app/packages/domain/
 
 WORKDIR /app/packages/frontend-remix
 
 RUN pnpm -F "@remix-v3-demo/frontend-remix..." install --frozen-lockfile
 
 ADD --chown=node:node tsconfig.base.json /app/
+ADD --chown=node:node packages/domain /app/packages/domain
 ADD --chown=node:node packages/frontend-remix /app/packages/frontend-remix
 
 FROM base AS dev
