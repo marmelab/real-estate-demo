@@ -36,7 +36,7 @@ services:
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_DNS_NOT_FOUND_TTL: 1
       KONG_DNS_VALID_TTL: 5
-      KONG_PLUGINS: request-transformer,cors,key-auth,acl
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl,post-function
       KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
       KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
       SUPABASE_ANON_KEY: *anon-key
@@ -131,6 +131,46 @@ services:
       PGRST_DB_USE_LEGACY_GUCS: "false"
       PGRST_APP_SETTINGS_JWT_EXP: 3600
 
+  storage:
+    image: supabase/storage-api:v1.81.0
+    depends_on:
+      db:
+        condition: service_healthy
+      rest:
+        condition: service_started
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://storage:5000/status",
+        ]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+      start_period: 10s
+    environment:
+      ANON_KEY: *anon-key
+      SERVICE_KEY: *service-key
+      POSTGREST_URL: http://rest:3000
+      AUTH_JWT_SECRET: *jwt-secret
+      DATABASE_URL: postgres://supabase_storage_admin:postgres@db:54322/postgres
+      STORAGE_PUBLIC_URL: http://localhost:54321
+      REQUEST_ALLOW_X_FORWARDED_PATH: "true"
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      GLOBAL_S3_BUCKET: stub
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: stub
+      # No imgproxy in dev.
+      ENABLE_IMAGE_TRANSFORMATION: "false"
+    volumes:
+      - storage-data:/var/lib/storage
+
   meta:
     image: supabase/postgres-meta:v0.100.0
     depends_on:
@@ -196,3 +236,4 @@ services:
 volumes:
   db-data:
   db-config:
+  storage-data:

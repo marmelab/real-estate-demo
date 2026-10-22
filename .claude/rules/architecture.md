@@ -13,7 +13,17 @@
 
 - PostgREST answers anyone holding the public anon key, so Postgres RLS policies and constraints are the trust boundary, never app code.
 - Every table in an exposed schema MUST enable RLS, with a policy per role that reads or writes it.
-- Enforce admin and per-resource authz in RLS policies; an app-side check is UX only.
+- Enforce manager and per-resource authz in RLS policies; an app-side check is UX only.
+
+## Database schema
+
+- Edit `supabase/schemas/`, the source of truth, never a migration alone.
+- Generate migrations with `pnpm exec supabase db schema declarative sync -f <name>`.
+- Without Docker, hand-write the migration byte-identical to the schema change.
+- Staff roles come from the JWT `app_metadata.role`, read through `public.is_manager()` and `public.is_staff()` in RLS policies.
+- `agent.role` is the source of truth, synced into the claim by a trigger.
+- Tables, access rules and storage are documented in `docs/database.md`.
+- See `docs/adr/0001-staff-roles-in-jwt-app-metadata.md` and `docs/adr/0002-agent-invites-with-service-role.md`.
 
 ## Server-side sorting and filtering
 
