@@ -19,6 +19,8 @@
     "deploy": "pnpm build:cloudflare && NODE_ENV=production wrangler deploy"
   },
   "dependencies": {
+    "@remix-v3-demo/domain": "workspace:*",
+    "@supabase/supabase-js": "catalog:",
     "remix": "catalog:",
     "tailwindcss": "catalog:"
   },

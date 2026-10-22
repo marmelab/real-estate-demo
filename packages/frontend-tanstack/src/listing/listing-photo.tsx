@@ -1,7 +1,5 @@
 import type { ListingImage } from "@remix-v3-demo/domain/listing/model";
 
-import { useState } from "react";
-
 import { ListingImagePlaceholder } from "./listing-image-placeholder.tsx";
 
 export function ListingPhoto({
@@ -11,22 +9,17 @@ export function ListingPhoto({
   image: ListingImage | null;
   className: string;
 }) {
-  const [isBroken, setIsBroken] = useState(false);
-
-  if (!image || isBroken) {
-    return <ListingImagePlaceholder className={className} />;
-  }
-
   return (
-    <img
-      ref={(img) => {
-        if (img?.complete && img.naturalWidth === 0) setIsBroken(true);
-      }}
-      src={image.url}
-      alt={image.alt}
-      loading="lazy"
-      onError={() => setIsBroken(true)}
-      className={`object-cover ${className}`}
-    />
+    <div className={`relative overflow-hidden ${className}`}>
+      <ListingImagePlaceholder className="absolute inset-0" />
+      {image && (
+        <div
+          role="img"
+          aria-label={image.alt}
+          style={{ backgroundImage: `url(${JSON.stringify(image.url)})` }}
+          className="absolute inset-0 bg-cover bg-center"
+        />
+      )}
+    </div>
   );
 }

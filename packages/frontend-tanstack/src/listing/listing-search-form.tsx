@@ -2,23 +2,13 @@ import type { ListListingsQuery } from "@remix-v3-demo/domain/listing/listing-va
 
 import { listListingsQuerySchema } from "@remix-v3-demo/domain/listing/listing-validator";
 import { propertyTypeSchema } from "@remix-v3-demo/domain/listing/model";
+import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
+import {
+  COUNT_FACETS,
+  ENERGY_CLASS_FACETS,
+} from "@remix-v3-demo/domain/listing/search-facets";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-
-import { PROPERTY_TYPE_LABELS } from "./property-type-labels.ts";
-
-const COUNT_OPTIONS: [string, string][] = [1, 2, 3, 4, 5].map((count) => [
-  String(count),
-  `${count}+`,
-]);
-
-const ENERGY_CLASS_OPTIONS: [string, string][] = [
-  ["A", "A"],
-  ["B", "B"],
-  ["C", "C"],
-  ["D", "D"],
-  ["E,F,G", "E-"],
-];
 
 export function ListingSearchForm({
   search,
@@ -94,7 +84,7 @@ export function ListingSearchForm({
           legend="Pièces"
           name="minRooms"
           value={search.minRooms}
-          options={COUNT_OPTIONS}
+          options={COUNT_FACETS}
           anyLabel="Toutes"
           isSingleRow
         />
@@ -102,7 +92,7 @@ export function ListingSearchForm({
           legend="Chambres"
           name="minBedrooms"
           value={search.minBedrooms}
-          options={COUNT_OPTIONS}
+          options={COUNT_FACETS}
           anyLabel="Toutes"
           isSingleRow
         />
@@ -110,7 +100,7 @@ export function ListingSearchForm({
           legend="Classe énergie (DPE)"
           name="energyClasses"
           value={search.energyClasses?.join(",")}
-          options={ENERGY_CLASS_OPTIONS}
+          options={ENERGY_CLASS_FACETS}
           anyLabel="Toutes"
           isSingleRow
         />

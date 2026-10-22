@@ -1,5 +1,6 @@
 import type { ListListingsQuery } from "@remix-v3-demo/domain/listing/listing-validator";
 
+import { getListingSearchTitle } from "@remix-v3-demo/domain/listing/get-listing-search-title";
 import { listListingsQuerySchema } from "@remix-v3-demo/domain/listing/listing-validator";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -10,7 +11,6 @@ import {
 } from "../listing/hook/list-listings.ts";
 import { ListingList } from "../listing/listing-list.tsx";
 import { ListingSearchForm } from "../listing/listing-search-form.tsx";
-import { getListingSearchTitle } from "../listing/listing-search-title.ts";
 
 export const Route = createFileRoute("/search")({
   validateSearch: listListingsQuerySchema,

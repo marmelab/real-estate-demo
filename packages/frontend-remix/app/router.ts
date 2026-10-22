@@ -10,7 +10,7 @@ import { routes } from "./routes.ts";
 
 const securityHeadersMiddleware = securityHeaders();
 const renderMiddleware = render({ assets });
-type AppContext = MiddlewareContext<
+export type AppContext = MiddlewareContext<
   [typeof securityHeadersMiddleware, typeof renderMiddleware]
 >;
 
@@ -23,7 +23,7 @@ declare module "remix" {
 export const router = createRouter<AppContext>({
   middleware: [
     securityHeadersMiddleware,
-    staticFiles("./public", { index: false }),
+    staticFiles("./public", { index: false, cacheControl: "no-cache" }),
     renderMiddleware,
   ],
 });

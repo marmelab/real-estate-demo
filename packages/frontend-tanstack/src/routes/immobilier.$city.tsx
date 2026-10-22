@@ -1,8 +1,8 @@
+import { CITY_INTROS } from "@remix-v3-demo/domain/listing/city-intros";
 import { findTargetCity } from "@remix-v3-demo/domain/listing/find-target-city";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 
 import { Breadcrumb } from "../listing/breadcrumb.tsx";
-import { CITY_INTROS } from "../listing/city-intros.ts";
 import {
   listListingsQueryOptions,
   useListListings,
