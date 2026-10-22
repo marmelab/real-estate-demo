@@ -1,4 +1,4 @@
-import type { PropertyType } from "@remix-v3-demo/domain/listing/model";
+import type { PropertyType } from "./model.ts";
 
 export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
   apartment: "Appartement",

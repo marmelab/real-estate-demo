@@ -1,4 +1,4 @@
-import type { TargetCity } from "@remix-v3-demo/domain/listing/target-cities";
+import type { TargetCity } from "./target-cities.ts";
 
 export const CITY_INTROS: Record<TargetCity["slug"], string> = {
   paris:

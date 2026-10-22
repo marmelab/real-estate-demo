@@ -2,11 +2,11 @@ import type { Listing } from "@remix-v3-demo/domain/listing/model";
 
 import { formatAddress } from "@remix-v3-demo/domain/listing/format-address";
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
+import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
 import { Link } from "@tanstack/react-router";
 
 import { ListingImagePlaceholder } from "./listing-image-placeholder.tsx";
 import { ListingPhoto } from "./listing-photo.tsx";
-import { PROPERTY_TYPE_LABELS } from "./property-type-labels.ts";
 
 export function ListingView({ listing }: { listing: Listing }) {
   const facts = [

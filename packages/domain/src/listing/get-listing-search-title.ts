@@ -1,4 +1,4 @@
-import type { ListListingsQuery } from "@remix-v3-demo/domain/listing/listing-validator";
+import type { ListListingsQuery } from "./listing-validator.ts";
 
 export function getListingSearchTitle({
   city,
