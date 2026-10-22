@@ -1,10 +1,5 @@
 default: help
 
-E2E_COMPOSE = docker compose -p remix-v3-demo-e2e -f docker-compose.e2e.yml
-E2E_URL = ADMIN_URL=http://localhost:4000/admin FRONTEND_URL=http://localhost:4000
-E2E_UP = trap '$(E2E_COMPOSE) down -v' EXIT; \
-	$(E2E_COMPOSE) up -d --build --wait --wait-timeout 300
-
 help:									## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(firstword $(MAKEFILE_LIST)) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 

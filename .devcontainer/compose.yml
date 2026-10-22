@@ -224,10 +224,12 @@ services:
     network_mode: service:workspace
     user: node
     restart: unless-stopped
-    volumes:
-      - ..:/workspaces/remix-v3-demo:cached
+    volumes_from: [workspace]
     working_dir: /workspaces/remix-v3-demo/packages/frontend-tanstack
     command: ["npm", "run", "dev"]
+    environment:
+      SUPABASE_URL: http://localhost:54321
+      SUPABASE_PUBLISHABLE_KEY: *anon-key
 
   frontend-remix:
     <<: *app

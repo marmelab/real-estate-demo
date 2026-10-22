@@ -9,8 +9,6 @@
     "fmt:check": "oxfmt --check",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest --passWithNoTests",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui --ui-host=0.0.0.0 --ui-port=8090",
     "prepare": "husky"
   },
   "devDependencies": {

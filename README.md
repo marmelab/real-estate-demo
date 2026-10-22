@@ -17,6 +17,7 @@ The same real estate agency website built twice, to compare React with TanStack 
 - Supabase is the backend, and Postgres RLS policies are the trust boundary, never app code.
 - Both apps are styled with Tailwind CSS 4.
 - The apps never query Supabase directly: they call the `domain` data-access functions.
+- `domain` is imported by subpath (`@remix-v3-demo/domain/listing/list-listings`), and `listing/` holds the model, validators, `list-listings`, `get-listing-by-id`, `get-listing-image` and the price and address formatters.
 
 ## Getting started
 
@@ -76,6 +77,10 @@ Append files or args to a `pnpm` script, e.g. `pnpm test path/to/file`.
 - `src/router.tsx` creates one QueryClient per router, so SSR requests never share cached data.
 - Route loaders prefetch with `context.queryClient`, and the SSR query integration hydrates the browser cache.
 - TanStack Devtools (Query and Router panels) show in dev and are stripped from the production build.
+- `/` is the public search page: Buy/Rent, city prefix and price range, then min rooms, bedrooms and surface after a first search, 12 per page.
+- `/listings/$listingId` is the server-rendered listing detail page, with head meta.
+- Server functions call `domain` with an anon Supabase client built from `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, set in `.devcontainer/compose.yml` for dev.
+- `public/robots.txt` disallows all crawlers, since this is a demo site.
 - `pnpm build` then `pnpm start` runs the production server.
 
 ### frontend-remix
