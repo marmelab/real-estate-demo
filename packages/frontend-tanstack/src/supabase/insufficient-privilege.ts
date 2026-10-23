@@ -1,9 +1,10 @@
-import { z } from "zod";
-
-export const INSUFFICIENT_PRIVILEGE_MESSAGE = "Action réservée aux managers";
+import {
+  INSUFFICIENT_PRIVILEGE_MESSAGE,
+  isInsufficientPrivilege,
+} from "@remix-v3-demo/domain/auth/insufficient-privilege";
 
 export function rethrowInsufficientPrivilege(error: unknown): never {
-  if (z.object({ code: z.literal("42501") }).safeParse(error).success) {
+  if (isInsufficientPrivilege(error)) {
     throw new Error(INSUFFICIENT_PRIVILEGE_MESSAGE);
   }
   throw error;

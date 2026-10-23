@@ -1,8 +1,7 @@
 import type { Agent } from "@remix-v3-demo/domain/agent/model";
 
+import { AGENT_ROLE_LABELS } from "@remix-v3-demo/domain/agent/agent-role-labels";
 import { Link } from "@tanstack/react-router";
-
-import { AGENT_ROLE_LABELS } from "./agent-role-labels.ts";
 
 const dateFormat = new Intl.DateTimeFormat("fr-FR", {
   dateStyle: "short",

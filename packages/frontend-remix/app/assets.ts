@@ -10,7 +10,13 @@ export const assets = createAssetServer({
   basePath: "/assets",
   rootDir,
 
-  allowFiles: ["app/routes.ts", "app/**/public/**"],
+  mounts: { app: "app", npm: "node_modules", domain: "../domain/src" },
+  allowFiles: [
+    "app/routes.ts",
+    "app/**/public/**",
+    "../domain/src/listing/find-target-city-by-postal-code.ts",
+    "../domain/src/listing/target-cities.ts",
+  ],
   allowPackages: ["remix"],
   denyFiles: ["app/**/*.test.*"],
   sourceMaps: isDevelopment ? "external" : undefined,

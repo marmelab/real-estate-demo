@@ -23,6 +23,15 @@
     @apply border-obsidian-600 bg-obsidian-900 focus-visible:border-gold min-h-11 w-full border px-3 text-base font-normal tracking-normal text-white normal-case placeholder:text-gray-400 focus-visible:outline-none;
   }
 
+  .button-ghost {
+    @apply text-gold hover:text-gold-light hover:bg-obsidian-800 focus-visible:outline-gold inline-flex min-h-11 items-center justify-center px-6 text-sm tracking-[0.15em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  select.field-input {
+    @apply appearance-none bg-[length:1rem] bg-[position:right_1rem_center] bg-no-repeat pr-11;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c5a059' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
   .button-gold {
     @apply bg-gold text-obsidian-950 hover:bg-gold-light focus-visible:outline-gold inline-flex min-h-11 items-center justify-center gap-2 px-6 text-sm font-semibold tracking-[0.15em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
   }

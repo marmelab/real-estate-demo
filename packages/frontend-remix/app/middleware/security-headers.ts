@@ -31,10 +31,11 @@ function contentSecurityPolicy(nonce: string): string {
 export function securityHeaders(): Middleware<{
   key: typeof Nonce;
   value: string;
+  property: "nonce";
 }> {
   return async (context, next) => {
     let nonce = crypto.randomUUID();
-    context.set(Nonce, nonce);
+    context.set(Nonce, nonce, { property: "nonce" });
 
     let response = await next();
     let headers = new Headers(response.headers);

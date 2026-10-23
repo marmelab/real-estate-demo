@@ -1,7 +1,7 @@
+import { getImageFileError } from "@remix-v3-demo/domain/listing-image/get-image-file-error";
 import { useId, useState } from "react";
 
 import { FormAlert } from "../components/form/form-alert.tsx";
-import { getImageFileError } from "./get-image-file-error.ts";
 
 export function ImageFileInput({
   label,
