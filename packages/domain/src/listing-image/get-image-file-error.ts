@@ -1,4 +1,4 @@
-import { listingImageFileSchema } from "@remix-v3-demo/domain/listing-image/listing-image-validator";
+import { listingImageFileSchema } from "./listing-image-validator.ts";
 
 export function getImageFileError(file: File): string | undefined {
   const result = listingImageFileSchema.safeParse(file);

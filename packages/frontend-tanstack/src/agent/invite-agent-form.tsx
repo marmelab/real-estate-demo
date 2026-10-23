@@ -1,12 +1,12 @@
 import type { InviteAgent } from "@remix-v3-demo/domain/agent/agent-validator";
 
+import { AGENT_ROLE_OPTIONS } from "@remix-v3-demo/domain/agent/agent-role-labels";
 import { inviteAgentSchema } from "@remix-v3-demo/domain/agent/agent-validator";
 
 import { useAppForm } from "../components/form/app-form.tsx";
 import { FormAlert } from "../components/form/form-alert.tsx";
 import { useSubmitError } from "../components/form/use-submit-error.ts";
 import { validateWith } from "../components/form/validate-with.ts";
-import { AGENT_ROLE_OPTIONS } from "./agent-role-labels.ts";
 
 export function InviteAgentForm({
   onSubmit,

@@ -1,9 +1,9 @@
 import type { Staff } from "@remix-v3-demo/domain/auth/model";
 
+import { AGENT_ROLE_LABELS } from "@remix-v3-demo/domain/agent/agent-role-labels";
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { ArrowUpRight, LogOut } from "lucide-react";
 
-import { AGENT_ROLE_LABELS } from "../agent/agent-role-labels.ts";
 import { Logo } from "../brand/logo.tsx";
 import { useSignOut } from "./hook/sign-out.ts";
 

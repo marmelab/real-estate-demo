@@ -1,6 +1,7 @@
 import type { AgentInput } from "@remix-v3-demo/domain/agent/agent-validator";
 import type { Agent } from "@remix-v3-demo/domain/agent/model";
 
+import { AGENT_ROLE_OPTIONS } from "@remix-v3-demo/domain/agent/agent-role-labels";
 import { agentInputSchema } from "@remix-v3-demo/domain/agent/agent-validator";
 
 import { ConfirmButton } from "../components/confirm-button.tsx";
@@ -8,7 +9,6 @@ import { useAppForm } from "../components/form/app-form.tsx";
 import { FormActions } from "../components/form/form-actions.tsx";
 import { useSubmitError } from "../components/form/use-submit-error.ts";
 import { validateWith } from "../components/form/validate-with.ts";
-import { AGENT_ROLE_OPTIONS } from "./agent-role-labels.ts";
 
 export function AgentForm({
   agent,

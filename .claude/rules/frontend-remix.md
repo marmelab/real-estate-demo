@@ -26,4 +26,14 @@ paths:
 - `worker.ts` is the Cloudflare Workers entry, and `wrangler.jsonc` names the Worker and serves `public/` as static assets.
 - A `clientEntry(import.meta.url, ...)` component does not hydrate on Workers yet, as bundling loses `import.meta.url`.
 - So pages work without JavaScript: facet chips are links, the mobile filter toggle is a CSS checkbox (`peer`), and the photo placeholder sits under the `<img>`.
+- The admin hydrates a few client entries (live filters, upload on file pick, alt text saved on blur, city from postal code), so it needs the Node server until they hydrate on Workers.
+- `app/assets.ts` mounts `domain/src` and allows only the `domain` files a client entry imports.
 - A new script tag in the document carries the request nonce, or the production CSP blocks it.
+
+## Navigation runtime
+
+- After `run()`, form submits and links become client navigations that morph the DOM.
+- The morph keeps live `checked`, `value`, `selected` and dialog `open` state: put a fresh `data-rmx-key` on an element the server must reset on every render (tab radios, dialogs).
+- JSX `key` is not rendered, so a reorderable list needs `data-rmx-key` on each item.
+- The Navigation API moves focus to `<body>` after a navigation: refocus on `navigatesuccess` where focus must stay (live filters).
+- Give every POST-only URL a GET that redirects to its page, since a 400 re-render leaves the browser on that URL.

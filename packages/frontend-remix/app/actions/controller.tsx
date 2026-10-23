@@ -17,6 +17,7 @@ import { Nonce } from "../middleware/security-headers.ts";
 import { routes } from "../routes.ts";
 import { Landing } from "../ui/landing.tsx";
 import { ListingView } from "../ui/listing-view.tsx";
+import { SiteHeader } from "../ui/site-header.tsx";
 import { CityPage } from "./city-page.tsx";
 import { Document } from "./document.tsx";
 import { NotFoundPage } from "./not-found-page.tsx";
@@ -114,7 +115,8 @@ function renderPage(
       description={description}
       nonce={context.get(Nonce)}
     >
-      {page}
+      <SiteHeader />
+      <main class="w-full">{page}</main>
     </Document>,
     { status },
   );

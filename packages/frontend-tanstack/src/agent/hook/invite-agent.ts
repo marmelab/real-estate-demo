@@ -4,11 +4,11 @@ import type { UseMutationResult } from "@tanstack/react-query";
 import { inviteAgentSchema } from "@remix-v3-demo/domain/agent/agent-validator";
 import { inviteAgent } from "@remix-v3-demo/domain/agent/invite-agent";
 import { getCurrentStaff } from "@remix-v3-demo/domain/auth/get-current-staff";
+import { INSUFFICIENT_PRIVILEGE_MESSAGE } from "@remix-v3-demo/domain/auth/insufficient-privilege";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 
-import { INSUFFICIENT_PRIVILEGE_MESSAGE } from "../../supabase/insufficient-privilege.ts";
 import { createServiceClient } from "../../supabase/service-client.ts";
 import { createSessionClient } from "../../supabase/session-client.ts";
 

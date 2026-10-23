@@ -1,4 +1,4 @@
-import type { AgentRole } from "@remix-v3-demo/domain/agent/model";
+import type { AgentRole } from "./model.ts";
 
 export const AGENT_ROLE_LABELS: Record<AgentRole, string> = {
   agent: "Agent",
