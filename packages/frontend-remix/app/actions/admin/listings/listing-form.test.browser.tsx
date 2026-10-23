@@ -1,7 +1,6 @@
 import * as assert from "remix/assert";
-import { renderToString } from "remix/component/server";
 import { render } from "remix/component/test";
-import { describe, it, type TestContext } from "remix/test";
+import { describe, it } from "remix/test";
 
 import type { ListingFormProps } from "./listing-form.tsx";
 
@@ -26,14 +25,6 @@ function checkedTab(root: ParentNode) {
   )?.value;
 }
 
-async function renderServerHtml(t: TestContext, formProps: ListingFormProps) {
-  let page = document.createElement("div");
-  page.innerHTML = await renderToString(<ListingForm {...formProps} />);
-  document.body.append(page);
-  t.after(() => page.remove());
-  return page;
-}
-
 describe("ListingForm", () => {
   for (let isManager of [true, false]) {
     it(`shows the publish checkbox only to managers, here ${isManager}`, (t) => {
@@ -45,14 +36,15 @@ describe("ListingForm", () => {
   }
 
   it("switches the section from its tab", async (t) => {
-    let page = await renderServerHtml(t, props());
-    let details = [...page.querySelectorAll("label")].find(
+    let { container, $$, act, cleanup } = render(<ListingForm {...props()} />);
+    t.after(cleanup);
+    let details = [...$$("label")].find(
       (label) => label.textContent === "Caractéristiques",
     );
 
-    details?.click();
+    await act(() => details?.click());
 
-    assert.equal(checkedTab(page), "details");
+    assert.equal(checkedTab(container), "details");
   });
 
   it("flags the tab holding an invalid field", (t) => {

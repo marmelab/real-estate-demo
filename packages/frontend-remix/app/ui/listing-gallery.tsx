@@ -49,11 +49,11 @@ export function ListingGallery(handle: Handle<{ images: ListingImage[] }>) {
         {images.length > 1 &&
           images.map((_, index) => (
             <input
-              key={index}
+              key={radioId(index)}
               id={radioId(index)}
               type="radio"
               name={handle.id}
-              checked={index === 0}
+              defaultChecked={index === 0}
               aria-label={`Photo ${index + 1} sur ${images.length}`}
               class="sr-only"
             />
@@ -73,7 +73,7 @@ export function ListingGallery(handle: Handle<{ images: ListingImage[] }>) {
         {images.length > 1 &&
           images.map((_, index) => (
             <div
-              key={index}
+              key={`${radioId(index)}-controls`}
               class="pointer-events-none invisible absolute inset-0 opacity-0 transition-[opacity,visibility] duration-500 *:pointer-events-auto"
             >
               {index > 0 && (

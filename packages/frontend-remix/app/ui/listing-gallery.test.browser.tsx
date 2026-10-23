@@ -1,5 +1,4 @@
 import * as assert from "remix/assert";
-import { renderToString } from "remix/component/server";
 import { render } from "remix/component/test";
 import { describe, it } from "remix/test";
 
@@ -34,12 +33,22 @@ describe("ListingGallery", () => {
   });
 
   it("shows the next photo and its counter on Photo suivante", async (t) => {
-    let page = document.createElement("div");
-    page.innerHTML = `<style>@layer utilities { .invisible { visibility: hidden; } }</style>${await renderToString(<ListingGallery images={images} />)}`;
-    document.body.append(page);
-    t.after(() => page.remove());
+    let style = document.createElement("style");
+    style.textContent =
+      "@layer utilities { .invisible { visibility: hidden; } }";
+    document.head.append(style);
+    let {
+      container: page,
+      $,
+      act,
+      cleanup,
+    } = render(<ListingGallery images={images} />);
+    t.after(() => {
+      cleanup();
+      style.remove();
+    });
 
-    page.querySelector<HTMLElement>('label[title="Photo suivante"]')?.click();
+    await act(() => $('label[title="Photo suivante"]')?.click());
 
     let radios = [...page.querySelectorAll("input")];
     let counters = [...page.querySelectorAll("section > div")];
