@@ -5,7 +5,13 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ["@tanstack/react-form", "@tanstack/react-router", "zod"],
+    include: [
+      "@tanstack/react-form",
+      "@tanstack/react-query",
+      "@tanstack/react-router",
+      "zod",
+    ],
+    exclude: ["@tanstack/react-start"],
   },
   test: {
     browser: {

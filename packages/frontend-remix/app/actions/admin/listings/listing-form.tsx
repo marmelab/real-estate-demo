@@ -102,7 +102,7 @@ export function ListingForm(handle: Handle<ListingFormProps>) {
                   id={TAB_INPUT_ID[id]}
                   name="listing-tab"
                   value={id}
-                  checked={id === selectedTab}
+                  defaultChecked={id === selectedTab}
                   class="sr-only"
                 />
                 {TAB_LABELS[id]}

@@ -13,7 +13,7 @@
     "hmr": "trap 'kill 0' EXIT INT TERM; tailwindcss -i app/styles.css -o public/styles.css --watch=always & NODE_ENV=development PORT=4000 node hmr.ts",
     "build": "tailwindcss -i app/styles.css -o public/styles.css --minify",
     "start": "NODE_ENV=production node --import remix/node-tsx server.ts",
-    "test": "NODE_ENV=test remix test",
+    "test": "NODE_ENV=test remix test --type server && cd ../.. && NODE_ENV=test remix test --type browser --glob.test 'packages/frontend-remix/app/**/*.test.browser.tsx'",
     "typecheck": "tsc --noEmit",
     "build:cloudflare": "pnpm build && NODE_ENV=production node --import remix/node-tsx build-cloudflare.ts",
     "deploy": "pnpm build:cloudflare && NODE_ENV=production wrangler deploy"
