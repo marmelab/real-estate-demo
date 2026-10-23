@@ -114,47 +114,11 @@ docker build -f packages/frontend-remix/Dockerfile --target prod .
 
 Both production images listen on port 8080.
 
-## Deployment
+## CI
 
-Both apps run on Cloudflare Workers, and the database is Supabase Cloud.
+- `.github/workflows/ci.yml` runs on pull requests: lint, fmt, Remix typecheck, Vitest (with Playwright Chromium) and Remix tests.
 
-- TanStack: `https://real-estate-tanstack.<handle>.workers.dev`
-- Remix: `https://real-estate-remix.<handle>.workers.dev`
-- `<handle>` is the account's workers.dev subdomain (dashboard, Workers & Pages).
-- Worker names come from `packages/frontend-tanstack/wrangler.json` and `packages/frontend-remix/wrangler.jsonc`.
-
-### Workflows
-
-- `.github/workflows/ci.yml` runs on pull requests: lint, fmt, Remix typecheck, Vitest (with Playwright Chromium), Remix tests, and `supabase db push --dry-run` (skipped for fork PRs).
-- `.github/workflows/deploy.yml` runs on push to `main` and on manual `workflow_dispatch`.
-- Its `supabase` job runs `supabase db push --db-url "$SUPABASE_DB_URL"`.
-- Its `deploy` job then deploys both apps (matrix) with `pnpm -F @remix-v3-demo/<app> run deploy --var SUPABASE_URL:... --var SUPABASE_PUBLISHABLE_KEY:...`.
-
-### GitHub setup
-
-Set these as repository secrets and variables (Settings, Secrets and variables, Actions).
-
-- Secrets: `CLOUDFLARE_API_TOKEN` (from the "Edit Cloudflare Workers" template), `CLOUDFLARE_ACCOUNT_ID`, `SUPABASE_DB_URL`.
-- Variables (public values): `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (the `sb_publishable_` key, not the legacy anon key).
-- `SUPABASE_DB_URL` is the Session pooler string (dashboard Connect, port 5432, user `postgres.<project-ref>`) with the password percent-encoded.
-- Use the pooler because GitHub runners are IPv4-only and the direct db host is IPv6-only.
-- The PR dry-run reads the production `SUPABASE_DB_URL`, so anyone who can push a branch can reach it.
-- A staging database URL would avoid that.
-
-### Local deploy
-
-- Run `pnpm exec wrangler login`, then `pnpm -F @remix-v3-demo/<app> run deploy`.
-- It must be `run deploy`, since `pnpm deploy` is a pnpm built-in.
-- Append extra wrangler args without `--`, because pnpm 12 forwards a literal `--`.
-
-### How each app targets Workers
-
-- TanStack: `build:cloudflare` uses the Nitro `cloudflare_module` preset through `NITRO_PRESET`; the Node build and Docker image are unchanged.
-- Remix: `build:cloudflare` pre-builds the browser modules into `dist/assets.js`, mapped by `#assets` under the `workerd` condition, and `worker.ts` calls `router.fetch`.
-- Remix serves those modules from the Worker, since Cloudflare static assets redirect Remix's percent-encoded URLs; `public/` goes to static assets.
-- Limitation: a `clientEntry(import.meta.url, ...)` component does not hydrate on Workers yet, as bundling loses `import.meta.url`.
-
-### Security headers
+## Security headers
 
 - Both apps send HSTS, `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy and Permissions-Policy on every response.
 - In production they also send a CSP with a per-request script nonce, whose `connect-src` adds the `SUPABASE_URL` origin.

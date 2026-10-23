@@ -19,14 +19,11 @@ paths:
 - `app/middleware/security-headers.ts` sets the security headers and, in production, a CSP with a per-request script nonce.
 - Add `app/data/`, `app/ui/` and the like only once a second route needs them.
 
-## Assets and Workers
+## Assets
 
 - Import the asset server through `#assets`, never `./assets.ts` directly.
-- `#assets` maps to `app/assets.ts` on Node and to the `dist/assets.js` that `build-cloudflare.ts` pre-builds under the `workerd` condition.
-- `worker.ts` is the Cloudflare Workers entry, and `wrangler.jsonc` names the Worker and serves `public/` as static assets.
-- A `clientEntry(import.meta.url, ...)` component does not hydrate on Workers yet, as bundling loses `import.meta.url`.
-- So pages work without JavaScript: facet chips are links, the mobile filter toggle is a CSS checkbox (`peer`), and the photo placeholder sits under the `<img>`.
-- The admin hydrates a few client entries (live filters, upload on file pick, alt text saved on blur, city from postal code), so it needs the Node server until they hydrate on Workers.
+- Pages work without JavaScript: facet chips are links, the mobile filter toggle is a CSS checkbox (`peer`), and the photo placeholder sits under the `<img>`.
+- The admin hydrates a few client entries (live filters, upload on file pick, alt text saved on blur, city from postal code).
 - `app/assets.ts` mounts `domain/src` and allows only the `domain` files a client entry imports.
 - A new script tag in the document carries the request nonce, or the production CSP blocks it.
 

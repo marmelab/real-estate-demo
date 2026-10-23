@@ -1,9 +1,0 @@
-{
-  "$schema": "../../node_modules/wrangler/config-schema.json",
-  "name": "real-estate-remix",
-  "main": "worker.ts",
-  "compatibility_date": "2026-10-01",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": { "directory": "dist/client" },
-  "observability": { "enabled": true, "logs": { "invocation_logs": true } },
-}
