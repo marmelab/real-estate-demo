@@ -4,6 +4,7 @@ import * as assert from "remix/assert";
 import { render } from "remix/component/test";
 import { describe, it } from "remix/test";
 
+import { Favorites } from "./favorites.tsx";
 import { ListingCard } from "./listing-card.tsx";
 
 const listing: ListingSummary = {
@@ -21,7 +22,11 @@ const listing: ListingSummary = {
 
 describe("ListingCard", () => {
   it("links to the listing page with its price and title", (t) => {
-    let { $, cleanup } = render(<ListingCard listing={listing} />);
+    let { $, cleanup } = render(
+      <Favorites ids={[]}>
+        <ListingCard listing={listing} />
+      </Favorites>,
+    );
     t.after(cleanup);
     let link = $("a");
 
@@ -34,9 +39,16 @@ describe("ListingCard", () => {
 
   it("shows a dash for each missing fact", (t) => {
     let { $$, cleanup } = render(
-      <ListingCard
-        listing={{ ...listing, rooms: null, bedrooms: null, surfaceArea: null }}
-      />,
+      <Favorites ids={[]}>
+        <ListingCard
+          listing={{
+            ...listing,
+            rooms: null,
+            bedrooms: null,
+            surfaceArea: null,
+          }}
+        />
+      </Favorites>,
     );
     t.after(cleanup);
 

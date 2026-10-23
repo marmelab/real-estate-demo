@@ -4,13 +4,17 @@ import type { Handle } from "remix/component";
 import { formatAddress } from "@remix-v3-demo/domain/listing/format-address";
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
 import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
-import { ArrowLeft } from "lucide";
+import { ArrowLeft, Heart } from "lucide";
 
+import { Favorites } from "./favorites.tsx";
 import { Icon } from "./icon.tsx";
 import { ListingGallery } from "./listing-gallery.tsx";
+import { FavoriteButton } from "./public/favorite-button.tsx";
 import { searchHref } from "./search-href.ts";
 
 export function ListingView(handle: Handle<{ listing: Listing }>) {
+  let favorites = handle.context.get(Favorites);
+
   return () => {
     let { listing } = handle.props;
     let facts = [
@@ -39,11 +43,21 @@ export function ListingView(handle: Handle<{ listing: Listing }>) {
             </h1>
             <p class="mt-1 text-sm text-gray-300">{formatAddress(listing)}</p>
           </div>
-          <div class="md:text-right">
-            <p class="text-xs tracking-widest text-gray-400 uppercase">Prix</p>
-            <p class="text-gold text-3xl font-semibold">
-              {formatPrice(listing.price)}
-            </p>
+          <div class="flex items-end gap-4">
+            <div class="md:text-right">
+              <p class="text-xs tracking-widest text-gray-400 uppercase">
+                Prix
+              </p>
+              <p class="text-gold text-3xl font-semibold">
+                {formatPrice(listing.price)}
+              </p>
+            </div>
+            <FavoriteButton
+              listingId={listing.id}
+              isFavorite={favorites.ids.includes(listing.id)}
+            >
+              <Icon icon={Heart} class="size-5" strokeWidth={1.5} />
+            </FavoriteButton>
           </div>
         </div>
         <ListingGallery images={listing.images} />

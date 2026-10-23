@@ -1,10 +1,12 @@
 import type { RemixNode } from "remix/component";
 
+import { readFavoriteIds } from "@remix-v3-demo/domain/favorite/favorite-cookie";
 import { CITY_INTROS } from "@remix-v3-demo/domain/listing/city-intros";
 import { findTargetCity } from "@remix-v3-demo/domain/listing/find-target-city";
 import { getListingById } from "@remix-v3-demo/domain/listing/get-listing-by-id";
 import { getListingSearchTitle } from "@remix-v3-demo/domain/listing/get-listing-search-title";
 import { listListings } from "@remix-v3-demo/domain/listing/list-listings";
+import { listListingsByIds } from "@remix-v3-demo/domain/listing/list-listings-by-ids";
 import { listListingsQuerySchema } from "@remix-v3-demo/domain/listing/listing-validator";
 import { createController } from "remix/router";
 
@@ -15,11 +17,13 @@ import type { AppContext } from "../router.ts";
 import { createServerClient } from "../data/supabase.ts";
 import { Nonce } from "../middleware/security-headers.ts";
 import { routes } from "../routes.ts";
+import { Favorites } from "../ui/favorites.tsx";
 import { Landing } from "../ui/landing.tsx";
 import { ListingView } from "../ui/listing-view.tsx";
 import { SiteHeader } from "../ui/site-header.tsx";
 import { CityPage } from "./city-page.tsx";
 import { Document } from "./document.tsx";
+import { FavoritesPage } from "./favorites-page.tsx";
 import { NotFoundPage } from "./not-found-page.tsx";
 import { SearchPage } from "./search-page.tsx";
 
@@ -94,6 +98,17 @@ export default createController(routes, {
         ),
       });
     },
+    async favorites(context) {
+      let listings = await listListingsByIds(
+        createServerClient(),
+        readFavoriteIds(context.request.headers.get("Cookie")),
+      );
+      return renderPage(context, {
+        title: "Vos favoris | Keyhaven",
+        description: "Les résidences d'exception que vous avez retenues.",
+        page: <FavoritesPage listings={listings} />,
+      });
+    },
     notFound(context) {
       return renderNotFound(context);
     },
@@ -115,8 +130,10 @@ function renderPage(
       description={description}
       nonce={context.get(Nonce)}
     >
-      <SiteHeader />
-      <main class="w-full">{page}</main>
+      <Favorites ids={readFavoriteIds(context.request.headers.get("Cookie"))}>
+        <SiteHeader />
+        <main class="w-full">{page}</main>
+      </Favorites>
     </Document>,
     { status },
   );

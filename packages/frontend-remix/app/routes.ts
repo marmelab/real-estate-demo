@@ -6,6 +6,7 @@ export const routes = route({
   search: get("/search"),
   city: get("/immobilier/:city"),
   listing: get("/listings/:listingId"),
+  favorites: get("/favoris"),
   admin: route("/admin", {
     index: get("/"),
     logout: post("/logout"),

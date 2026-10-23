@@ -10,9 +10,25 @@ import { listingSummarySchema } from "./model.ts";
 
 export const LISTING_PAGE_SIZE = 12;
 
+export const LISTING_SUMMARY_COLUMNS =
+  "id, title, price, propertyType:property_type, surfaceArea:surface_area, rooms, bedrooms, city, postalCode:postal_code, images:listing_image(path, alt)";
+
 const listingSummaryRowSchema = listingSummarySchema
   .omit({ image: true })
   .extend({ images: z.array(listingImageRowSchema) });
+
+export function toListingSummaries(
+  client: SupabaseClient,
+  data: unknown,
+): ListingSummary[] {
+  return z
+    .array(listingSummaryRowSchema)
+    .parse(data)
+    .map(({ images: [image], ...listing }) => ({
+      ...listing,
+      image: image ? getListingImage(client, image) : null,
+    }));
+}
 
 export type ListingSearchResult = {
   listings: ListingSummary[];
@@ -25,10 +41,7 @@ export async function listListings(
 ): Promise<ListingSearchResult> {
   let request = client
     .from("listing")
-    .select(
-      "id, title, price, propertyType:property_type, surfaceArea:surface_area, rooms, bedrooms, city, postalCode:postal_code, images:listing_image(path, alt)",
-      { count: "exact" },
-    )
+    .select(LISTING_SUMMARY_COLUMNS, { count: "exact" })
     .eq("published", true);
   if (query.city) request = request.ilike("city", `${query.city}%`);
   if (query.propertyType) {
@@ -52,12 +65,5 @@ export async function listListings(
     .range(from, from + LISTING_PAGE_SIZE - 1);
   if (error) throw error;
 
-  const rows = z.array(listingSummaryRowSchema).parse(data);
-  return {
-    listings: rows.map(({ images: [image], ...listing }) => ({
-      ...listing,
-      image: image ? getListingImage(client, image) : null,
-    })),
-    total: count ?? 0,
-  };
+  return { listings: toListingSummaries(client, data), total: count ?? 0 };
 }
