@@ -9,105 +9,388 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as ImmobilierCityRouteImport } from './routes/immobilier.$city'
-import { Route as ListingsListingIdRouteImport } from './routes/listings.$listingId'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as SiteIndexRouteImport } from './routes/_site.index'
+import { Route as SiteSearchRouteImport } from './routes/_site.search'
+import { Route as AdminStaffRouteImport } from './routes/admin._staff'
+import { Route as AdminAcceptInviteRouteImport } from './routes/admin.accept-invite'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as SiteImmobilierCityRouteImport } from './routes/_site.immobilier.$city'
+import { Route as SiteListingsListingIdRouteImport } from './routes/_site.listings.$listingId'
+import { Route as AdminStaffIndexRouteImport } from './routes/admin._staff.index'
+import { Route as AdminStaffAgentsRouteImport } from './routes/admin._staff.agents'
+import { Route as AdminStaffProfileRouteImport } from './routes/admin._staff.profile'
+import { Route as AdminStaffAgentsIndexRouteImport } from './routes/admin._staff.agents.index'
+import { Route as AdminStaffAgentsAgentIdRouteImport } from './routes/admin._staff.agents.$agentId'
+import { Route as AdminStaffListingsIndexRouteImport } from './routes/admin._staff.listings.index'
+import { Route as AdminStaffListingsListingIdRouteImport } from './routes/admin._staff.listings.$listingId'
+import { Route as AdminStaffListingsNewRouteImport } from './routes/admin._staff.listings.new'
 
-const IndexRoute = IndexRouteImport.update({
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
 } as any)
-const SearchRoute = SearchRouteImport.update({
+const SiteSearchRoute = SiteSearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => SiteRoute,
+} as any)
+const AdminStaffRoute = AdminStaffRouteImport.update({
+  id: '/admin/_staff',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ImmobilierCityRoute = ImmobilierCityRouteImport.update({
+const AdminAcceptInviteRoute = AdminAcceptInviteRouteImport.update({
+  id: '/admin/accept-invite',
+  path: '/admin/accept-invite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteImmobilierCityRoute = SiteImmobilierCityRouteImport.update({
   id: '/immobilier/$city',
   path: '/immobilier/$city',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
 } as any)
-const ListingsListingIdRoute = ListingsListingIdRouteImport.update({
+const SiteListingsListingIdRoute = SiteListingsListingIdRouteImport.update({
   id: '/listings/$listingId',
   path: '/listings/$listingId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
+} as any)
+const AdminStaffIndexRoute = AdminStaffIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminStaffRoute,
+} as any)
+const AdminStaffAgentsRoute = AdminStaffAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => AdminStaffRoute,
+} as any)
+const AdminStaffProfileRoute = AdminStaffProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AdminStaffRoute,
+} as any)
+const AdminStaffAgentsIndexRoute = AdminStaffAgentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminStaffAgentsRoute,
+} as any)
+const AdminStaffAgentsAgentIdRoute = AdminStaffAgentsAgentIdRouteImport.update({
+  id: '/$agentId',
+  path: '/$agentId',
+  getParentRoute: () => AdminStaffAgentsRoute,
+} as any)
+const AdminStaffListingsIndexRoute = AdminStaffListingsIndexRouteImport.update({
+  id: '/listings/',
+  path: '/listings/',
+  getParentRoute: () => AdminStaffRoute,
+} as any)
+const AdminStaffListingsListingIdRoute =
+  AdminStaffListingsListingIdRouteImport.update({
+    id: '/listings/$listingId',
+    path: '/listings/$listingId',
+    getParentRoute: () => AdminStaffRoute,
+  } as any)
+const AdminStaffListingsNewRoute = AdminStaffListingsNewRouteImport.update({
+  id: '/listings/new',
+  path: '/listings/new',
+  getParentRoute: () => AdminStaffRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/search': typeof SearchRoute
-  '/immobilier/$city': typeof ImmobilierCityRoute
-  '/listings/$listingId': typeof ListingsListingIdRoute
+  '/': typeof SiteIndexRoute
+  '/search': typeof SiteSearchRoute
+  '/admin': typeof AdminStaffRouteWithChildren
+  '/admin/accept-invite': typeof AdminAcceptInviteRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/immobilier/$city': typeof SiteImmobilierCityRoute
+  '/listings/$listingId': typeof SiteListingsListingIdRoute
+  '/admin/agents': typeof AdminStaffAgentsRouteWithChildren
+  '/admin/profile': typeof AdminStaffProfileRoute
+  '/admin/': typeof AdminStaffIndexRoute
+  '/admin/agents/$agentId': typeof AdminStaffAgentsAgentIdRoute
+  '/admin/listings/$listingId': typeof AdminStaffListingsListingIdRoute
+  '/admin/listings/new': typeof AdminStaffListingsNewRoute
+  '/admin/agents/': typeof AdminStaffAgentsIndexRoute
+  '/admin/listings/': typeof AdminStaffListingsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/search': typeof SearchRoute
-  '/immobilier/$city': typeof ImmobilierCityRoute
-  '/listings/$listingId': typeof ListingsListingIdRoute
+  '/search': typeof SiteSearchRoute
+  '/admin/accept-invite': typeof AdminAcceptInviteRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/': typeof SiteIndexRoute
+  '/immobilier/$city': typeof SiteImmobilierCityRoute
+  '/listings/$listingId': typeof SiteListingsListingIdRoute
+  '/admin/profile': typeof AdminStaffProfileRoute
+  '/admin': typeof AdminStaffIndexRoute
+  '/admin/agents/$agentId': typeof AdminStaffAgentsAgentIdRoute
+  '/admin/listings/$listingId': typeof AdminStaffListingsListingIdRoute
+  '/admin/listings/new': typeof AdminStaffListingsNewRoute
+  '/admin/agents': typeof AdminStaffAgentsIndexRoute
+  '/admin/listings': typeof AdminStaffListingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/search': typeof SearchRoute
-  '/immobilier/$city': typeof ImmobilierCityRoute
-  '/listings/$listingId': typeof ListingsListingIdRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/_site/search': typeof SiteSearchRoute
+  '/admin/_staff': typeof AdminStaffRouteWithChildren
+  '/admin/accept-invite': typeof AdminAcceptInviteRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/_site/': typeof SiteIndexRoute
+  '/_site/immobilier/$city': typeof SiteImmobilierCityRoute
+  '/_site/listings/$listingId': typeof SiteListingsListingIdRoute
+  '/admin/_staff/agents': typeof AdminStaffAgentsRouteWithChildren
+  '/admin/_staff/profile': typeof AdminStaffProfileRoute
+  '/admin/_staff/': typeof AdminStaffIndexRoute
+  '/admin/_staff/agents/$agentId': typeof AdminStaffAgentsAgentIdRoute
+  '/admin/_staff/listings/$listingId': typeof AdminStaffListingsListingIdRoute
+  '/admin/_staff/listings/new': typeof AdminStaffListingsNewRoute
+  '/admin/_staff/agents/': typeof AdminStaffAgentsIndexRoute
+  '/admin/_staff/listings/': typeof AdminStaffListingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/immobilier/$city' | '/listings/$listingId'
+  fullPaths:
+    | '/'
+    | '/search'
+    | '/admin'
+    | '/admin/accept-invite'
+    | '/admin/login'
+    | '/immobilier/$city'
+    | '/listings/$listingId'
+    | '/admin/agents'
+    | '/admin/profile'
+    | '/admin/'
+    | '/admin/agents/$agentId'
+    | '/admin/listings/$listingId'
+    | '/admin/listings/new'
+    | '/admin/agents/'
+    | '/admin/listings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/immobilier/$city' | '/listings/$listingId'
+  to:
+    | '/search'
+    | '/admin/accept-invite'
+    | '/admin/login'
+    | '/'
+    | '/immobilier/$city'
+    | '/listings/$listingId'
+    | '/admin/profile'
+    | '/admin'
+    | '/admin/agents/$agentId'
+    | '/admin/listings/$listingId'
+    | '/admin/listings/new'
+    | '/admin/agents'
+    | '/admin/listings'
   id:
-    '__root__' | '/' | '/search' | '/immobilier/$city' | '/listings/$listingId'
+    | '__root__'
+    | '/_site'
+    | '/_site/search'
+    | '/admin/_staff'
+    | '/admin/accept-invite'
+    | '/admin/login'
+    | '/_site/'
+    | '/_site/immobilier/$city'
+    | '/_site/listings/$listingId'
+    | '/admin/_staff/agents'
+    | '/admin/_staff/profile'
+    | '/admin/_staff/'
+    | '/admin/_staff/agents/$agentId'
+    | '/admin/_staff/listings/$listingId'
+    | '/admin/_staff/listings/new'
+    | '/admin/_staff/agents/'
+    | '/admin/_staff/listings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  SearchRoute: typeof SearchRoute
-  ImmobilierCityRoute: typeof ImmobilierCityRoute
-  ListingsListingIdRoute: typeof ListingsListingIdRoute
+  SiteRoute: typeof SiteRouteWithChildren
+  AdminStaffRoute: typeof AdminStaffRouteWithChildren
+  AdminAcceptInviteRoute: typeof AdminAcceptInviteRoute
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/search': {
-      id: '/search'
+    '/_site/search': {
+      id: '/_site/search'
       path: '/search'
       fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
+      preLoaderRoute: typeof SiteSearchRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/admin/_staff': {
+      id: '/admin/_staff'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminStaffRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/immobilier/$city': {
-      id: '/immobilier/$city'
+    '/admin/accept-invite': {
+      id: '/admin/accept-invite'
+      path: '/admin/accept-invite'
+      fullPath: '/admin/accept-invite'
+      preLoaderRoute: typeof AdminAcceptInviteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/immobilier/$city': {
+      id: '/_site/immobilier/$city'
       path: '/immobilier/$city'
       fullPath: '/immobilier/$city'
-      preLoaderRoute: typeof ImmobilierCityRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteImmobilierCityRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/listings/$listingId': {
-      id: '/listings/$listingId'
+    '/_site/listings/$listingId': {
+      id: '/_site/listings/$listingId'
       path: '/listings/$listingId'
       fullPath: '/listings/$listingId'
-      preLoaderRoute: typeof ListingsListingIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteListingsListingIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/admin/_staff/': {
+      id: '/admin/_staff/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminStaffIndexRouteImport
+      parentRoute: typeof AdminStaffRoute
+    }
+    '/admin/_staff/agents': {
+      id: '/admin/_staff/agents'
+      path: '/agents'
+      fullPath: '/admin/agents'
+      preLoaderRoute: typeof AdminStaffAgentsRouteImport
+      parentRoute: typeof AdminStaffRoute
+    }
+    '/admin/_staff/profile': {
+      id: '/admin/_staff/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminStaffProfileRouteImport
+      parentRoute: typeof AdminStaffRoute
+    }
+    '/admin/_staff/agents/': {
+      id: '/admin/_staff/agents/'
+      path: '/'
+      fullPath: '/admin/agents/'
+      preLoaderRoute: typeof AdminStaffAgentsIndexRouteImport
+      parentRoute: typeof AdminStaffAgentsRoute
+    }
+    '/admin/_staff/agents/$agentId': {
+      id: '/admin/_staff/agents/$agentId'
+      path: '/$agentId'
+      fullPath: '/admin/agents/$agentId'
+      preLoaderRoute: typeof AdminStaffAgentsAgentIdRouteImport
+      parentRoute: typeof AdminStaffAgentsRoute
+    }
+    '/admin/_staff/listings/': {
+      id: '/admin/_staff/listings/'
+      path: '/listings'
+      fullPath: '/admin/listings/'
+      preLoaderRoute: typeof AdminStaffListingsIndexRouteImport
+      parentRoute: typeof AdminStaffRoute
+    }
+    '/admin/_staff/listings/$listingId': {
+      id: '/admin/_staff/listings/$listingId'
+      path: '/listings/$listingId'
+      fullPath: '/admin/listings/$listingId'
+      preLoaderRoute: typeof AdminStaffListingsListingIdRouteImport
+      parentRoute: typeof AdminStaffRoute
+    }
+    '/admin/_staff/listings/new': {
+      id: '/admin/_staff/listings/new'
+      path: '/listings/new'
+      fullPath: '/admin/listings/new'
+      preLoaderRoute: typeof AdminStaffListingsNewRouteImport
+      parentRoute: typeof AdminStaffRoute
     }
   }
 }
 
+interface SiteRouteChildren {
+  SiteSearchRoute: typeof SiteSearchRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+  SiteImmobilierCityRoute: typeof SiteImmobilierCityRoute
+  SiteListingsListingIdRoute: typeof SiteListingsListingIdRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteSearchRoute: SiteSearchRoute,
+  SiteIndexRoute: SiteIndexRoute,
+  SiteImmobilierCityRoute: SiteImmobilierCityRoute,
+  SiteListingsListingIdRoute: SiteListingsListingIdRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
+interface AdminStaffAgentsRouteChildren {
+  AdminStaffAgentsAgentIdRoute: typeof AdminStaffAgentsAgentIdRoute
+  AdminStaffAgentsIndexRoute: typeof AdminStaffAgentsIndexRoute
+}
+
+const AdminStaffAgentsRouteChildren: AdminStaffAgentsRouteChildren = {
+  AdminStaffAgentsAgentIdRoute: AdminStaffAgentsAgentIdRoute,
+  AdminStaffAgentsIndexRoute: AdminStaffAgentsIndexRoute,
+}
+
+const AdminStaffAgentsRouteWithChildren =
+  AdminStaffAgentsRoute._addFileChildren(AdminStaffAgentsRouteChildren)
+
+interface AdminStaffRouteChildren {
+  AdminStaffAgentsRoute: typeof AdminStaffAgentsRouteWithChildren
+  AdminStaffProfileRoute: typeof AdminStaffProfileRoute
+  AdminStaffIndexRoute: typeof AdminStaffIndexRoute
+  AdminStaffListingsListingIdRoute: typeof AdminStaffListingsListingIdRoute
+  AdminStaffListingsNewRoute: typeof AdminStaffListingsNewRoute
+  AdminStaffListingsIndexRoute: typeof AdminStaffListingsIndexRoute
+}
+
+const AdminStaffRouteChildren: AdminStaffRouteChildren = {
+  AdminStaffAgentsRoute: AdminStaffAgentsRouteWithChildren,
+  AdminStaffProfileRoute: AdminStaffProfileRoute,
+  AdminStaffIndexRoute: AdminStaffIndexRoute,
+  AdminStaffListingsListingIdRoute: AdminStaffListingsListingIdRoute,
+  AdminStaffListingsNewRoute: AdminStaffListingsNewRoute,
+  AdminStaffListingsIndexRoute: AdminStaffListingsIndexRoute,
+}
+
+const AdminStaffRouteWithChildren = AdminStaffRoute._addFileChildren(
+  AdminStaffRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  SearchRoute: SearchRoute,
-  ImmobilierCityRoute: ImmobilierCityRoute,
-  ListingsListingIdRoute: ListingsListingIdRoute,
+  SiteRoute: SiteRouteWithChildren,
+  AdminStaffRoute: AdminStaffRouteWithChildren,
+  AdminAcceptInviteRoute: AdminAcceptInviteRoute,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

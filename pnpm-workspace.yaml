@@ -48,6 +48,9 @@ catalog:
   remix: ^3.0.0
   zod: ^4.6.7
   "@supabase/supabase-js": ^2.118.0
+  "@supabase/ssr": ^0.12.7
+  lucide: ^1.60.0
+  lucide-react: ^1.60.0
 
 catalogMode: strict
 

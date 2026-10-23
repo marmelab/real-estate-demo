@@ -10,6 +10,7 @@ const config = defineConfig({
     port: 3000,
     host: true,
   },
+  optimizeDeps: { include: ["@tanstack/react-form"] },
   plugins: [
     devtools(),
     nitro({

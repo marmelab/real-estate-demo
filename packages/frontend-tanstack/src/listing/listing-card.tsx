@@ -2,6 +2,7 @@ import type { ListingSummary } from "@remix-v3-demo/domain/listing/model";
 
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight, MapPin } from "lucide-react";
 
 import { ListingPhoto } from "./listing-photo.tsx";
 
@@ -28,7 +29,7 @@ export function ListingCard({ listing }: { listing: ListingSummary }) {
             {formatPrice(listing.price)}
           </p>
           <p className="flex items-center gap-1 text-[10px] tracking-widest text-gray-300 uppercase">
-            <PinIcon />
+            <MapPin aria-hidden="true" className="text-gold size-3" />
             {listing.city}
           </p>
         </div>
@@ -53,21 +54,10 @@ export function ListingCard({ listing }: { listing: ListingSummary }) {
             </div>
           ))}
         </dl>
-        <p className="eyebrow">Voir le bien →</p>
+        <p className="eyebrow inline-flex items-center gap-2">
+          Voir le bien <ArrowRight aria-hidden="true" className="size-4" />
+        </p>
       </div>
     </Link>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className="text-gold size-3"
-    >
-      <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" />
-    </svg>
   );
 }

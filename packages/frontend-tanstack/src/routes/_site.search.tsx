@@ -12,7 +12,7 @@ import {
 import { ListingList } from "../listing/listing-list.tsx";
 import { ListingSearchForm } from "../listing/listing-search-form.tsx";
 
-export const Route = createFileRoute("/search")({
+export const Route = createFileRoute("/_site/search")({
   validateSearch: listListingsQuerySchema,
   loaderDeps: ({ search }) => search,
   loader: ({ context, deps }) =>

@@ -1,6 +1,7 @@
 import type { ListListingsQuery } from "@remix-v3-demo/domain/listing/listing-validator";
 
 import { listListingsQuerySchema } from "@remix-v3-demo/domain/listing/listing-validator";
+import { Search } from "lucide-react";
 
 export function CitySearchForm({
   onSearch,
@@ -41,25 +42,9 @@ export function CitySearchForm({
         />
       </label>
       <button type="submit" className="button-gold">
-        <SearchIcon />
+        <Search aria-hidden="true" className="size-4" />
         Rechercher
       </button>
     </form>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden="true"
-      className="size-4"
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-4-4" />
-    </svg>
   );
 }

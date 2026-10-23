@@ -1,5 +1,7 @@
 import type { ListingImage } from "@remix-v3-demo/domain/listing/model";
+import type { ReactNode } from "react";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { ListingImagePlaceholder } from "./listing-image-placeholder.tsx";
@@ -62,14 +64,26 @@ export function ListingGallery({ images }: { images: ListingImage[] }) {
             isDisabled={index === 0}
             onClick={() => goTo(index - 1)}
             className="left-3"
-            path="m15 18-6-6 6-6"
+            icon={
+              <ChevronLeft
+                aria-hidden="true"
+                className="size-5"
+                strokeWidth={1.5}
+              />
+            }
           />
           <SlideButton
             label="Photo suivante"
             isDisabled={index === images.length - 1}
             onClick={() => goTo(index + 1)}
             className="right-3"
-            path="m9 18 6-6-6-6"
+            icon={
+              <ChevronRight
+                aria-hidden="true"
+                className="size-5"
+                strokeWidth={1.5}
+              />
+            }
           />
           <p
             aria-live="polite"
@@ -88,13 +102,13 @@ function SlideButton({
   isDisabled,
   onClick,
   className,
-  path,
+  icon,
 }: {
   label: string;
   isDisabled: boolean;
   onClick: () => void;
   className: string;
-  path: string;
+  icon: ReactNode;
 }) {
   return (
     <button
@@ -104,16 +118,7 @@ function SlideButton({
       onClick={onClick}
       className={`border-gold bg-obsidian-950/85 text-gold hover:bg-gold hover:text-obsidian-950 focus-visible:outline-gold absolute top-1/2 flex size-11 -translate-y-1/2 items-center justify-center border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:invisible ${className}`}
     >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-        className="size-5"
-      >
-        <path d={path} />
-      </svg>
+      {icon}
     </button>
   );
 }

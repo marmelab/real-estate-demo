@@ -4,7 +4,7 @@
   "dockerComposeFile": "compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/remix-v3-demo",
-  "forwardPorts": [3000, 4000, 54321, 54322, 54323],
+  "forwardPorts": [3000, 4000, 54321, 54322, 54323, "maildev:1080"],
   "portsAttributes": {
     "3000": { "label": "frontend-tanstack" },
     "4000": { "label": "frontend-remix" },
