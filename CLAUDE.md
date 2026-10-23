@@ -38,7 +38,7 @@
 - `make generate`: regenerate the TanStack route tree, also run by the pre-commit hook.
 - `pnpm test`: Vitest tests headless (`test:watch` watch), for every package but `frontend-remix`.
 - `pnpm test --project @remix-v3-demo/<project>`: one Vitest project's tests.
-- `pnpm -F @remix-v3-demo/frontend-remix test`: the Remix app's tests, run by `remix test`.
+- `pnpm -F @remix-v3-demo/frontend-remix test`: the Remix app's tests, run by `remix test`: `*.test.ts(x)` on the server from the package, then `*.test.browser.tsx` in Playwright chromium from the repo root, since the browser runner serves only files under its cwd.
 - `pnpm -F @remix-v3-demo/frontend-remix typecheck`: typecheck the Remix app, which Vitest never compiles.
 - `pnpm lint:apply` / `lint:check`: lint with/without writing fixes.
 - `pnpm fmt:apply` / `fmt:check`: format with/without writing fixes.
