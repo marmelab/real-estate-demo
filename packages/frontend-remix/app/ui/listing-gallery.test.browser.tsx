@@ -26,43 +26,37 @@ describe("ListingGallery", () => {
     );
     t.after(cleanup);
 
-    assert.deepEqual(
-      { radios: $$('input[type="radio"]').length, labels: $$("label").length },
-      { radios: 0, labels: 0 },
-    );
+    assert.equal($$("button").length, 0);
   });
 
-  it("shows the next photo and its counter on Photo suivante", async (t) => {
+  it("scrolls to the next photo and updates its counter on Photo suivante", async (t) => {
     let style = document.createElement("style");
     style.textContent =
-      "@layer utilities { .invisible { visibility: hidden; } }";
+      ".flex { display: flex; } .overflow-x-auto { overflow-x: auto; } .shrink-0 { flex-shrink: 0; } .w-full { width: 100%; }";
     document.head.append(style);
-    let {
-      container: page,
-      $,
-      act,
-      cleanup,
-    } = render(<ListingGallery images={images} />);
+    let { $, act, cleanup } = render(<ListingGallery images={images} />);
     t.after(() => {
       cleanup();
       style.remove();
     });
+    let track = $("ul") as HTMLUListElement;
+    let scrolled = new Promise((resolve) =>
+      track.addEventListener("scrollend", resolve, { once: true }),
+    );
 
-    await act(() => $('label[title="Photo suivante"]')?.click());
+    await act(() =>
+      ($('button[title="Photo suivante"]') as HTMLElement).click(),
+    );
+    await act(() => scrolled);
 
-    let radios = [...page.querySelectorAll("input")];
-    let counters = [...page.querySelectorAll("section > div")];
     assert.deepEqual(
       {
-        checked: radios.map((radio) => radio.checked),
-        visible: counters.map(
-          (counter) => getComputedStyle(counter).visibility,
-        ),
+        slide: Math.round(track.scrollLeft / track.clientWidth),
+        counter: $("p[aria-live]")?.textContent,
+        previous: ($('button[title="Photo précédente"]') as HTMLButtonElement)
+          .disabled,
       },
-      {
-        checked: [false, true, false],
-        visible: ["hidden", "visible", "hidden"],
-      },
+      { slide: 1, counter: "2 / 3", previous: false },
     );
   });
 });

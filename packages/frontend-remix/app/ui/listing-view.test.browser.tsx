@@ -4,6 +4,7 @@ import * as assert from "remix/assert";
 import { render } from "remix/component/test";
 import { describe, it } from "remix/test";
 
+import { Favorites } from "./favorites.tsx";
 import { ListingView } from "./listing-view.tsx";
 
 const listing: Listing = {
@@ -26,14 +27,22 @@ const listing: Listing = {
 
 describe("ListingView", () => {
   it("shows the price formatted in euros", (t) => {
-    let { container, cleanup } = render(<ListingView listing={listing} />);
+    let { container, cleanup } = render(
+      <Favorites ids={[]}>
+        <ListingView listing={listing} />
+      </Favorites>,
+    );
     t.after(cleanup);
 
     assert.match(container.textContent ?? "", /890\s000\s€/);
   });
 
   it("lists only the facts the listing has", (t) => {
-    let { $$, cleanup } = render(<ListingView listing={listing} />);
+    let { $$, cleanup } = render(
+      <Favorites ids={[]}>
+        <ListingView listing={listing} />
+      </Favorites>,
+    );
     t.after(cleanup);
 
     assert.deepEqual(
@@ -45,7 +54,9 @@ describe("ListingView", () => {
   for (let agent of [listing.agent, null]) {
     it(`shows the agent aside only with an agent, here ${agent ? "one" : "none"}`, (t) => {
       let { $, cleanup } = render(
-        <ListingView listing={{ ...listing, agent }} />,
+        <Favorites ids={[]}>
+          <ListingView listing={{ ...listing, agent }} />
+        </Favorites>,
       );
       t.after(cleanup);
 
@@ -57,7 +68,11 @@ describe("ListingView", () => {
   }
 
   it("links back to the search in the listing's city", (t) => {
-    let { $, cleanup } = render(<ListingView listing={listing} />);
+    let { $, cleanup } = render(
+      <Favorites ids={[]}>
+        <ListingView listing={listing} />
+      </Favorites>,
+    );
     t.after(cleanup);
 
     assert.equal($("a")?.getAttribute("href"), "/search?city=Lyon");

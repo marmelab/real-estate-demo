@@ -6,6 +6,7 @@ import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-typ
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
+import { FavoriteButton } from "../favorite/favorite-button.tsx";
 import { ListingGallery } from "./listing-gallery.tsx";
 
 export function ListingView({ listing }: { listing: Listing }) {
@@ -38,13 +39,16 @@ export function ListingView({ listing }: { listing: Listing }) {
           </h1>
           <p className="mt-1 text-sm text-gray-300">{formatAddress(listing)}</p>
         </div>
-        <div className="md:text-right">
-          <p className="text-xs tracking-widest text-gray-400 uppercase">
-            Prix
-          </p>
-          <p className="text-gold text-3xl font-semibold">
-            {formatPrice(listing.price)}
-          </p>
+        <div className="flex items-end gap-4">
+          <div className="md:text-right">
+            <p className="text-xs tracking-widest text-gray-400 uppercase">
+              Prix
+            </p>
+            <p className="text-gold text-3xl font-semibold">
+              {formatPrice(listing.price)}
+            </p>
+          </div>
+          <FavoriteButton listingId={listing.id} />
         </div>
       </div>
       <ListingGallery images={listing.images} />

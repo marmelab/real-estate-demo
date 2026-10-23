@@ -1,9 +1,16 @@
 import type { Handle } from "remix/component";
 
-import { routes } from "../routes.ts";
-import { Logo } from "./logo.tsx";
+import { Heart } from "lucide";
 
-export function SiteHeader(_handle: Handle) {
+import { routes } from "../routes.ts";
+import { Favorites } from "./favorites.tsx";
+import { Icon } from "./icon.tsx";
+import { Logo } from "./logo.tsx";
+import { FavoriteCount } from "./public/favorite-count.tsx";
+
+export function SiteHeader(handle: Handle) {
+  let favorites = handle.context.get(Favorites);
+
   return () => (
     <header class="border-obsidian-600 bg-obsidian-900 border-b">
       <div class="mx-auto flex h-20 max-w-7xl items-center px-4">
@@ -23,6 +30,9 @@ export function SiteHeader(_handle: Handle) {
             </span>
           </span>
         </a>
+        <FavoriteCount count={favorites.ids.length}>
+          <Icon icon={Heart} class="size-4" />
+        </FavoriteCount>
       </div>
     </header>
   );
