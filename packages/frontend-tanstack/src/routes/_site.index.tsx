@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CitySearchForm } from "../listing/city-search-form.tsx";
 import { ListingLanding } from "../listing/listing-landing.tsx";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_site/")({
   head: () => ({
     meta: [
       {

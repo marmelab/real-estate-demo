@@ -1,8 +1,10 @@
 import type { ListingImage } from "@remix-v3-demo/domain/listing/model";
 import type { Handle } from "remix/component";
 
+import { ChevronLeft, ChevronRight, type IconNode } from "lucide";
 import { css } from "remix/component";
 
+import { Icon } from "./icon.tsx";
 import { ListingPhoto } from "./listing-photo.tsx";
 
 const SLIDE_CLASS = "aspect-[4/3] max-h-[70svh] w-full md:aspect-[16/9]";
@@ -79,7 +81,7 @@ export function ListingGallery(handle: Handle<{ images: ListingImage[] }>) {
                   label="Photo précédente"
                   htmlFor={radioId(index - 1)}
                   class="left-3"
-                  path="m15 18-6-6 6-6"
+                  icon={ChevronLeft}
                 />
               )}
               {index < images.length - 1 && (
@@ -87,7 +89,7 @@ export function ListingGallery(handle: Handle<{ images: ListingImage[] }>) {
                   label="Photo suivante"
                   htmlFor={radioId(index + 1)}
                   class="right-3"
-                  path="m9 18 6-6-6-6"
+                  icon={ChevronRight}
                 />
               )}
               <p class="eyebrow border-obsidian-700 bg-obsidian-950/85 absolute right-3 bottom-3 border px-3 py-1">
@@ -105,7 +107,7 @@ function SlideLabel(
     label: string;
     htmlFor: string;
     class: string;
-    path: string;
+    icon: IconNode;
   }>,
 ) {
   return () => (
@@ -115,16 +117,7 @@ function SlideLabel(
       class={`border-gold bg-obsidian-950/85 text-gold hover:bg-gold hover:text-obsidian-950 absolute top-1/2 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center border transition-colors ${handle.props.class}`}
     >
       <span class="sr-only">{handle.props.label}</span>
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        aria-hidden="true"
-        class="size-5"
-      >
-        <path d={handle.props.path} />
-      </svg>
+      <Icon icon={handle.props.icon} class="size-5" strokeWidth={1.5} />
     </label>
   );
 }

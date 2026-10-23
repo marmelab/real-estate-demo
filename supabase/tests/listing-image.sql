@@ -60,6 +60,14 @@ begin
       raise exception 'a duplicate (listing_id, position) must be rejected';
     exception when unique_violation then null;
     end;
+    insert into public.listing_image (listing_id, path, position) values (draft_id, draft_id || '/1.jpg', 1);
+    insert into public.listing_image (id, listing_id, path, position)
+    select id, listing_id, path, 1 - position from public.listing_image where listing_id = draft_id
+    on conflict (id) do update set position = excluded.position;
+    if (select array_agg(path order by position) from public.listing_image where listing_id = draft_id)
+      is distinct from array[draft_id || '/1.jpg', draft_id || '/0.jpg'] then
+      raise exception 'staff must swap two image positions in one upsert';
+    end if;
 
     for bad in
       select * from (values

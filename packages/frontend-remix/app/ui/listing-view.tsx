@@ -4,7 +4,9 @@ import type { Handle } from "remix/component";
 import { formatAddress } from "@remix-v3-demo/domain/listing/format-address";
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
 import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
+import { ArrowLeft } from "lucide";
 
+import { Icon } from "./icon.tsx";
 import { ListingGallery } from "./listing-gallery.tsx";
 import { searchHref } from "./search-href.ts";
 
@@ -26,7 +28,8 @@ export function ListingView(handle: Handle<{ listing: Listing }>) {
           href={searchHref({ city: listing.city })}
           class="eyebrow hover:text-gold-light focus-visible:outline-gold inline-flex min-h-11 items-center focus-visible:outline-2"
         >
-          ← Retour à la recherche
+          <Icon icon={ArrowLeft} class="mr-2 size-4" />
+          Retour à la recherche
         </a>
         <div class="border-obsidian-700 flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
           <div>

@@ -4,6 +4,7 @@ import { formatAddress } from "@remix-v3-demo/domain/listing/format-address";
 import { formatPrice } from "@remix-v3-demo/domain/listing/format-price";
 import { PROPERTY_TYPE_LABELS } from "@remix-v3-demo/domain/listing/property-type-labels";
 import { Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 
 import { ListingGallery } from "./listing-gallery.tsx";
 
@@ -24,7 +25,8 @@ export function ListingView({ listing }: { listing: Listing }) {
         search={{ city: listing.city }}
         className="eyebrow hover:text-gold-light focus-visible:outline-gold inline-flex min-h-11 items-center focus-visible:outline-2"
       >
-        ← Retour à la recherche
+        <ArrowLeft aria-hidden="true" className="mr-2 size-4" />
+        Retour à la recherche
       </Link>
       <div className="border-obsidian-700 flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
         <div>

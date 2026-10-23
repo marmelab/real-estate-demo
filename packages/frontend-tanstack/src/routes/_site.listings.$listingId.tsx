@@ -8,7 +8,7 @@ import { ListingView } from "../listing/listing-view.tsx";
 
 const DESCRIPTION_MAX_LENGTH = 160;
 
-export const Route = createFileRoute("/listings/$listingId")({
+export const Route = createFileRoute("/_site/listings/$listingId")({
   params: {
     parse: ({ listingId }) => {
       const id = Number(listingId);

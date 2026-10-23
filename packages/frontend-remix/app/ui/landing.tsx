@@ -1,6 +1,8 @@
 import { TARGET_CITIES } from "@remix-v3-demo/domain/listing/target-cities";
+import { Search } from "lucide";
 
 import { routes } from "../routes.ts";
+import { Icon } from "./icon.tsx";
 
 export function Landing() {
   return () => (
@@ -94,17 +96,7 @@ function CitySearchForm() {
         />
       </label>
       <button type="submit" class="button-gold">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-          class="size-4"
-        >
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-4-4" />
-        </svg>
+        <Icon icon={Search} class="size-4" />
         Rechercher
       </button>
     </form>

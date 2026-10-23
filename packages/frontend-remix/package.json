@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "@remix-v3-demo/domain": "workspace:*",
+    "@supabase/ssr": "catalog:",
     "@supabase/supabase-js": "catalog:",
+    "lucide": "catalog:",
     "remix": "catalog:",
     "tailwindcss": "catalog:"
   },

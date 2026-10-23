@@ -9,7 +9,7 @@ paths:
 - Pass per-form `defaultValues` and `validators` (a zod schema from `domain`).
 - Reuse the existing bound inputs (`TextField`, `SubmitButton`...) via `form.AppField` / `form.AppForm`.
 - Missing an input? Add it to `src/components/form/` and register it in `app-form.tsx`, never inline a one-off input in an app.
-- Every bound input caps its own control at `sm:max-w-72`, on top of the `FieldRow` column width, so a new input carries that cap too.
+- Every bound input fills its container's width, one field per row; the page caps the form width (`max-w-xl`, `max-w-2xl`).
 
 ## Required marker
 

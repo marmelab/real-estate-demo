@@ -9,7 +9,7 @@ import {
 } from "../listing/hook/list-listings.ts";
 import { ListingList } from "../listing/listing-list.tsx";
 
-export const Route = createFileRoute("/immobilier/$city")({
+export const Route = createFileRoute("/_site/immobilier/$city")({
   params: {
     parse: ({ city }) => {
       const targetCity = findTargetCity(city);

@@ -108,8 +108,21 @@ services:
       GOTRUE_JWT_SECRET: *jwt-secret
       GOTRUE_JWT_ISSUER: http://localhost:54321/auth/v1
       GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
-      # No SMTP server in dev, so sign-ups skip the confirmation email.
       GOTRUE_MAILER_AUTOCONFIRM: "true"
+      GOTRUE_DISABLE_SIGNUP: "true"
+      GOTRUE_URI_ALLOW_LIST: http://localhost:3000/**,http://localhost:4000/**
+      GOTRUE_SMTP_HOST: maildev
+      GOTRUE_SMTP_PORT: "1025"
+      GOTRUE_SMTP_ADMIN_EMAIL: noreply@keyhaven.localhost
+      GOTRUE_SMTP_SENDER_NAME: Keyhaven
+      GOTRUE_MAILER_SUBJECTS_INVITE: Invitation Keyhaven
+      GOTRUE_MAILER_URLPATHS_INVITE: /auth/v1/verify
+      GOTRUE_MAILER_URLPATHS_CONFIRMATION: /auth/v1/verify
+      GOTRUE_MAILER_URLPATHS_RECOVERY: /auth/v1/verify
+      GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: /auth/v1/verify
+
+  maildev:
+    image: maildev/maildev:2.2.1
 
   rest:
     image: postgrest/postgrest:v14.18
@@ -230,6 +243,7 @@ services:
     environment:
       SUPABASE_URL: http://localhost:54321
       SUPABASE_PUBLISHABLE_KEY: *anon-key
+      SUPABASE_SERVICE_ROLE_KEY: *service-key
 
   frontend-remix:
     <<: *app
