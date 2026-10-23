@@ -42,7 +42,6 @@
 - `pnpm -F @remix-v3-demo/frontend-remix typecheck`: typecheck the Remix app, which Vitest never compiles.
 - `pnpm lint:apply` / `lint:check`: lint with/without writing fixes.
 - `pnpm fmt:apply` / `fmt:check`: format with/without writing fixes.
-- `pnpm -F @remix-v3-demo/<app> run deploy`: deploy an app to Cloudflare Workers, it must be `run` since `pnpm deploy` is a built-in.
 
 ## Services (dev)
 
