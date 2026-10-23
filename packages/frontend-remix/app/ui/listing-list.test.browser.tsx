@@ -4,6 +4,7 @@ import * as assert from "remix/assert";
 import { render } from "remix/component/test";
 import { describe, it } from "remix/test";
 
+import { Favorites } from "./favorites.tsx";
 import { ListingList } from "./listing-list.tsx";
 
 const listing: ListingSummary = {
@@ -21,10 +22,12 @@ const listing: ListingSummary = {
 
 function renderList(total: number, page = 1) {
   return render(
-    <ListingList
-      result={{ listings: total ? [listing] : [], total }}
-      query={{ city: "Lyon", page }}
-    />,
+    <Favorites ids={[]}>
+      <ListingList
+        result={{ listings: total ? [listing] : [], total }}
+        query={{ city: "Lyon", page }}
+      />
+    </Favorites>,
   );
 }
 

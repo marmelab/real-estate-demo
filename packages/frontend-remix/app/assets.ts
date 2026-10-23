@@ -16,6 +16,8 @@ export const assets = createAssetServer({
     "app/**/public/**",
     "../domain/src/listing/find-target-city-by-postal-code.ts",
     "../domain/src/listing/target-cities.ts",
+    "../domain/src/favorite/favorite-store.ts",
+    "../domain/src/favorite/favorite-cookie.ts",
   ],
   allowPackages: ["remix"],
   denyFiles: ["app/**/*.test.*"],

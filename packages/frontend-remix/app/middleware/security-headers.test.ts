@@ -62,9 +62,9 @@ describe("security headers", () => {
       first.csp,
       `default-src 'self'; script-src 'self' 'nonce-${first.nonce}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'`,
     );
-    let scriptNonces = [...first.body.matchAll(/<script\b[^>]*>/g)].map(
-      ([tag]) => /\snonce="([^"]*)"/.exec(tag)?.[1],
-    );
+    let scriptNonces = [...first.body.matchAll(/<script\b[^>]*>/g)]
+      .filter(([tag]) => !tag.includes('type="application/json"'))
+      .map(([tag]) => /\snonce="([^"]*)"/.exec(tag)?.[1]);
     assert.ok(scriptNonces.length > 0);
     assert.deepEqual(
       scriptNonces,

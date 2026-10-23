@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
+import { Route as SiteFavorisRouteImport } from './routes/_site.favoris'
 import { Route as SiteSearchRouteImport } from './routes/_site.search'
 import { Route as AdminStaffRouteImport } from './routes/admin._staff'
 import { Route as AdminAcceptInviteRouteImport } from './routes/admin.accept-invite'
@@ -33,6 +34,11 @@ const SiteRoute = SiteRouteImport.update({
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteFavorisRoute = SiteFavorisRouteImport.update({
+  id: '/favoris',
+  path: '/favoris',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteSearchRoute = SiteSearchRouteImport.update({
@@ -109,6 +115,7 @@ const AdminStaffListingsNewRoute = AdminStaffListingsNewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/favoris': typeof SiteFavorisRoute
   '/search': typeof SiteSearchRoute
   '/admin': typeof AdminStaffRouteWithChildren
   '/admin/accept-invite': typeof AdminAcceptInviteRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/admin/listings/': typeof AdminStaffListingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/favoris': typeof SiteFavorisRoute
   '/search': typeof SiteSearchRoute
   '/admin/accept-invite': typeof AdminAcceptInviteRoute
   '/admin/login': typeof AdminLoginRoute
@@ -142,6 +150,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
+  '/_site/favoris': typeof SiteFavorisRoute
   '/_site/search': typeof SiteSearchRoute
   '/admin/_staff': typeof AdminStaffRouteWithChildren
   '/admin/accept-invite': typeof AdminAcceptInviteRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/favoris'
     | '/search'
     | '/admin'
     | '/admin/accept-invite'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin/listings/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/favoris'
     | '/search'
     | '/admin/accept-invite'
     | '/admin/login'
@@ -194,6 +205,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/_site/favoris'
     | '/_site/search'
     | '/admin/_staff'
     | '/admin/accept-invite'
@@ -232,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/favoris': {
+      id: '/_site/favoris'
+      path: '/favoris'
+      fullPath: '/favoris'
+      preLoaderRoute: typeof SiteFavorisRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/search': {
@@ -336,6 +355,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface SiteRouteChildren {
+  SiteFavorisRoute: typeof SiteFavorisRoute
   SiteSearchRoute: typeof SiteSearchRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteImmobilierCityRoute: typeof SiteImmobilierCityRoute
@@ -343,6 +363,7 @@ interface SiteRouteChildren {
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
+  SiteFavorisRoute: SiteFavorisRoute,
   SiteSearchRoute: SiteSearchRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteImmobilierCityRoute: SiteImmobilierCityRoute,

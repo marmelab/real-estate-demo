@@ -1,14 +1,18 @@
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 
 import { Logo } from "../brand/logo.tsx";
+import { FavoriteCount } from "../favorite/favorite-count.tsx";
+import { readRequestFavoriteIds } from "../favorite/read-request-favorite-ids.ts";
+import { ServerFavoriteIdsContext } from "../favorite/use-favorite-ids.ts";
 
 export const Route = createFileRoute("/_site")({
+  loader: () => readRequestFavoriteIds(),
   component: SiteLayout,
 });
 
 function SiteLayout() {
   return (
-    <>
+    <ServerFavoriteIdsContext value={Route.useLoaderData()}>
       <header className="border-obsidian-600 bg-obsidian-900 border-b">
         <div className="mx-auto flex h-20 max-w-7xl items-center px-4">
           <Link
@@ -27,11 +31,12 @@ function SiteLayout() {
               </span>
             </span>
           </Link>
+          <FavoriteCount />
         </div>
       </header>
       <main className="w-full">
         <Outlet />
       </main>
-    </>
+    </ServerFavoriteIdsContext>
   );
 }
