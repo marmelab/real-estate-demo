@@ -2,128 +2,59 @@
 
 The same real estate agency website built twice, to compare React with TanStack Start against Remix v3.
 
-- Keyhaven, a high-end agency selling apartments and houses in Paris, Lyon, Nice and Cannes, with French copy.
-- Visitors search listings by city and budget, then refine them with facets.
-- Admins manage listings from an admin section.
-- Both apps share one Supabase backend and one `domain` package.
+Keyhaven is a fictional high-end agency selling apartments and houses in Paris, Lyon, Nice and Cannes, with a French-language site.
 
-## Stack
+## Where is the code
 
-| Package                      | Role                                                             | Dev URL               |
-| ---------------------------- | ---------------------------------------------------------------- | --------------------- |
-| `packages/domain`            | Business logic, Zod models, validation and Supabase data access. | -                     |
-| `packages/frontend-tanstack` | The site in React with TanStack Start, Router, Query and Form.   | http://localhost:3000 |
-| `packages/frontend-remix`    | The site in Remix v3, rendered with `remix/component`.           | http://localhost:4000 |
+- [packages/frontend-tanstack](packages/frontend-tanstack): the React app, with TanStack Start.
+- [packages/frontend-remix](packages/frontend-remix): the Remix v3 app.
+- [packages/domain](packages/domain): the models, validation and Supabase data access both apps share.
 
-- Supabase is the backend, and Postgres RLS policies are the trust boundary, never app code.
-- Both apps are styled with Tailwind CSS 4.
-- The apps never query Supabase directly: they call the `domain` data-access functions.
-- `domain` is imported by subpath (`@remix-v3-demo/domain/listing/list-listings`), and `listing/` holds the model, validators, `list-listings`, `get-listing-by-id`, `get-listing-image`, the target cities and the price and address formatters.
-
-## Getting started
-
-The project runs in a devcontainer, which starts Supabase and both apps beside it.
+## Run it
 
 1. Open the repository in VS Code and run **Dev Containers: Reopen in Container**.
-2. Install dependencies with `make install`: the apps restart until `node_modules` exists, then serve on http://localhost:3000 and http://localhost:4000.
-3. Read app logs or restart an app from the host, e.g. `docker compose -p <devcontainer project> logs -f frontend-remix`.
+2. Wait for the container to install the dependencies and start Supabase and both apps.
+3. Open both apps side by side:
+   - TanStack Start: http://localhost:3000
+   - Remix v3: http://localhost:4000
 
-The devcontainer has no Docker, so run Docker commands on the host.
+The apps run in production mode: they build once on start, so a code change does not refresh them.
 
-### Supabase
+- To see a change, restart the app's container from the host, e.g. `docker compose -p <project> restart frontend-remix`.
+- To get the reloading dev server, set `NODE_ENV: development` in `.devcontainer/compose.yml` and rebuild the container.
 
-Supabase runs from `.devcontainer/compose.yml` on the Supabase CLI ports, forwarded to the host:
+## Try the public site
 
-- API: http://localhost:54321
-- Studio: http://localhost:54323
-- Postgres: `postgresql://postgres:postgres@localhost:54322/postgres`
+- Search by city and max price from the landing page.
+- Refine the results with the facets: budget, property type, bedrooms, rooms, surface and DPE.
+- Open a listing to browse its photos.
+- Add listings to your favorites, then find them on `/favoris`.
+- Visit a city page, e.g. `/immobilier/paris`.
 
-The anon and service_role keys are in `.devcontainer/compose.yml`. They are public dev-only values, never to be reused elsewhere.
+## Try the admin
 
-#### Schema
+Sign in on `/admin/login` with a seeded account:
 
-- `supabase/schemas/` is the source of truth for the tables and RLS policies, documented in [docs/database.md](docs/database.md).
-- Supabase Storage runs in the devcontainer beside the other services.
-- After a schema change, PostgREST may need a restart of the `rest` container to reload its schema cache.
-- Generate a migration with `pnpm exec supabase db schema declarative sync -f <name>`, which needs Docker, so run it on the host.
-- Apply migrations and the seed locally with `pnpm exec supabase db push --include-seed --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable'`, where `sslmode=disable` is required.
-- Run each SQL test with `pnpm exec supabase db query --db-url 'postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable' -f supabase/tests/<file>.sql`; they roll back.
-- Staff roles (`manager`, `agent`) live in the JWT `app_metadata.role`, see [ADR 0001](docs/adr/0001-staff-roles-in-jwt-app-metadata.md).
-- The seed creates `manager@example.com` and `agent@example.com`, both with password `password`, for local use only.
-- Promote a user by setting `agent.role`, for example `update public.agent set role = 'manager' where id = '...';`, which a trigger syncs into the JWT claim.
-- The user must sign in again to get the new role.
+| Email                 | Password   | Role    |
+| --------------------- | ---------- | ------- |
+| `manager@example.com` | `password` | manager |
+| `agent@example.com`   | `password` | agent   |
 
-## Commands
+- Both roles create and edit listings, upload photos and edit their profile.
+- Only a manager publishes a listing, changes a role and invites agents.
+- Invite emails land in MailDev.
 
-Run from the repository root.
+## Supabase
 
-| Command                                      | What it does                                     |
-| -------------------------------------------- | ------------------------------------------------ |
-| `make install`                               | Install dependencies and Playwright browsers.    |
-| `pnpm test`                                  | Run the Vitest tests of every package but Remix. |
-| `pnpm test:watch`                            | Same, in watch mode.                             |
-| `pnpm test --project @remix-v3-demo/<name>`  | Run one Vitest project.                          |
-| `pnpm -F @remix-v3-demo/frontend-remix test` | Run the Remix app tests with `remix test`.       |
-| `pnpm lint:check` / `pnpm lint:apply`        | Lint with oxlint, without or with fixes.         |
-| `pnpm fmt:check` / `pnpm fmt:apply`          | Format with oxfmt, without or with writing.      |
-| `make generate`                              | Regenerate the TanStack route tree.              |
+| Service  | URL                                                       |
+| -------- | --------------------------------------------------------- |
+| Studio   | http://localhost:54323                                    |
+| API      | http://localhost:54321                                    |
+| Postgres | `postgresql://postgres:postgres@localhost:54322/postgres` |
+| MailDev  | http://localhost:1080                                     |
 
-Append files or args to a `pnpm` script, e.g. `pnpm test path/to/file`.
-
-## Apps
-
-### frontend-tanstack
-
-- File-based routes live in `src/routes/`; `src/routeTree.gen.ts` is generated, never edited.
-- `src/router.tsx` creates one QueryClient per router, so SSR requests never share cached data.
-- Route loaders prefetch with `context.queryClient`, and the SSR query integration hydrates the browser cache.
-- TanStack Devtools (Query and Router panels) show in dev and are stripped from the production build.
-- `/` is the landing page: city and max price, plus links to the city pages.
-- `/search` lists the matching listings, 12 per page, with facets: budget, property type, surface, rooms, bedrooms and DPE.
-- `/immobilier/$city` is a server-rendered SEO page per target city, with its own intro and listings.
-- `/listings/$listingId` is the server-rendered listing detail page, with head meta.
-- Server functions call `domain` with an anon Supabase client built from `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, set in `.devcontainer/compose.yml` for dev.
-- `public/robots.txt` disallows all crawlers, since this is a demo site.
-- `pnpm build` then `pnpm start` runs the production server.
-
-### frontend-remix
-
-- `app/routes.ts` declares the routes, `app/router.ts` wires them to the controllers in `app/actions/`.
-- `app/actions/document.tsx` renders the document shell.
-- Tailwind compiles `app/styles.css` to `app/public/styles.css`, rebuilt by `dev`/`hmr` and by `pnpm build`.
-- `pnpm build` then `pnpm start` runs the production server; TypeScript runs as is, with no bundling step.
-
-## Conventions
-
-- One folder per entity, one concern per file, kebab-case names, no barrel files.
-- Logic shared by both apps lives in `domain`, which holds no React or Remix code.
-- Lists are sorted, filtered and paginated server-side, in the query.
-- Dependencies are pinned through the pnpm catalog in `pnpm-workspace.yaml`, and a version must be 3 days old before install.
-- A pre-commit hook regenerates the route tree, then lints and formats staged files.
-
-The full rules live in `CLAUDE.md` and `.claude/rules/`.
-
-## Docker
-
-Each app has a `Dockerfile` on Node 26, built from the repository root:
-
-```sh
-docker build -f packages/frontend-tanstack/Dockerfile --target prod .
-docker build -f packages/frontend-remix/Dockerfile --target prod .
-```
-
-Both production images listen on port 8080.
-
-## CI
-
-- `.github/workflows/ci.yml` runs on pull requests: lint, fmt, Remix typecheck, Vitest (with Playwright Chromium) and Remix tests.
-
-## Security headers
-
-- Both apps send HSTS, `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy and Permissions-Policy on every response.
-- In production they also send a CSP with a per-request script nonce, whose `connect-src` adds the `SUPABASE_URL` origin.
-- Remix: `app/middleware/security-headers.ts`.
-- TanStack: `vite.config.ts` `routeRules`, the `src/start.ts` middleware and the router `ssr.nonce`.
+- Browse and edit the data in Studio.
+- The API keys are in `.devcontainer/compose.yml`, public dev-only values.
 
 ## License
 
