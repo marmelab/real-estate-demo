@@ -53,10 +53,10 @@ export default createController(routes.admin.login, {
     },
     async action(context) {
       let email = readText(context.formData, "email");
-      let parsed = s.parseSafe(signInSchema, {
-        email,
-        password: readText(context.formData, "password"),
-      });
+      let parsed = s.parseSafe(
+        signInSchema,
+        Object.fromEntries(context.formData),
+      );
       if (!parsed.success) {
         return renderLogin(
           context,
