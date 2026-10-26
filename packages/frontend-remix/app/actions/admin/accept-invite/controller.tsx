@@ -12,7 +12,6 @@ import type { PageContext } from "../../../middleware/require-staff.ts";
 import { supabaseSession } from "../../../middleware/supabase-session.ts";
 import { routes } from "../../../routes.ts";
 import { getFieldErrors } from "../../../ui/form/get-field-errors.ts";
-import { readText } from "../../../ui/form/read-text.ts";
 import { renderAuthPage } from "../render-admin-page.tsx";
 import { InvalidInvite } from "./invalid-invite.tsx";
 import { SetPasswordForm } from "./set-password-form.tsx";
@@ -47,9 +46,10 @@ export default createController(routes.admin.acceptInvite, {
       );
     },
     async action(context) {
-      let parsed = s.parseSafe(setPasswordSchema, {
-        password: readText(context.formData, "password"),
-      });
+      let parsed = s.parseSafe(
+        setPasswordSchema,
+        Object.fromEntries(context.formData),
+      );
       if (!parsed.success) {
         return renderAcceptInvite(
           context,
