@@ -10,7 +10,9 @@ import { Icon } from "./icon.tsx";
 import { ListingPhoto } from "./listing-photo.tsx";
 import { FavoriteButton } from "./public/favorite-button.tsx";
 
-export function ListingCard(handle: Handle<{ listing: ListingSummary }>) {
+export function ListingCard(
+  handle: Handle<{ listing: ListingSummary; isPriority?: boolean }>,
+) {
   let favorites = handle.context.get(Favorites);
 
   return () => {
@@ -30,6 +32,7 @@ export function ListingCard(handle: Handle<{ listing: ListingSummary }>) {
           <div class="border-obsidian-700 relative overflow-hidden border-b">
             <ListingPhoto
               image={listing.image}
+              isPriority={handle.props.isPriority}
               class="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
             />
             <div class="border-obsidian-700 bg-obsidian-950/85 absolute inset-x-3 bottom-3 flex items-end justify-between gap-2 border p-2">

@@ -10,7 +10,7 @@ The real estate agency site in Remix v3.
 - `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs.
 - `app/router.ts` wires routes to handlers and installs the standard Remix component renderer used by actions.
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware.
-- Root `public/` contains static files served unchanged from the app root, including the generated `styles.css`.
+- Root `public/` contains static files served unchanged from the app root.
 
 ## Pages
 

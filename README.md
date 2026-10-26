@@ -90,7 +90,7 @@ Append files or args to a `pnpm` script, e.g. `pnpm test path/to/file`.
 
 - `app/routes.ts` declares the routes, `app/router.ts` wires them to the controllers in `app/actions/`.
 - `app/actions/document.tsx` renders the document shell.
-- Tailwind compiles `app/styles.css` to `public/styles.css`, rebuilt by `dev`/`hmr` and by `pnpm build`.
+- Tailwind compiles `app/styles.css` to `app/public/styles.css`, rebuilt by `dev`/`hmr` and by `pnpm build`.
 - `pnpm build` then `pnpm start` runs the production server; TypeScript runs as is, with no bundling step.
 
 ## Conventions

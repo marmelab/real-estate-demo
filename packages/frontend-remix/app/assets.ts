@@ -18,12 +18,14 @@ export const assets = createAssetServer({
     "../domain/src/listing/target-cities.ts",
     "../domain/src/favorite/favorite-store.ts",
     "../domain/src/favorite/favorite-cookie.ts",
+    "../domain/src/listing-image/resize-listing-image.ts",
   ],
   allowPackages: ["remix"],
   denyFiles: ["app/**/*.test.*"],
   sourceMaps: isDevelopment ? "external" : undefined,
   minify: !isDevelopment,
   watch: isDevelopment,
+  fingerprint: !isDevelopment,
   hmr: isHmr
     ? {
         channel: async () =>
@@ -37,3 +39,4 @@ export const assets = createAssetServer({
 const entry = "app/actions/public/entry.ts";
 
 export const scriptEntry = await assets.getScriptEntry(entry);
+export const stylesHref = await assets.getHref("app/public/styles.css");

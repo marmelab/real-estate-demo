@@ -49,7 +49,14 @@ describe("ListingCard", () => {
 
   it.each([
     ["no image", null],
-    ["a broken image", { url: "/missing.jpg", alt: "Façade de la maison" }],
+    [
+      "a broken image",
+      {
+        url: "/missing.jpg",
+        mobileUrl: "/missing-mobile.jpg",
+        alt: "Façade de la maison",
+      },
+    ],
   ])(
     "should show the placeholder when the listing has %s",
     async (_, image) => {

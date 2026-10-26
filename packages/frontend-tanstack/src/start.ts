@@ -18,12 +18,23 @@ const contentSecurityPolicy = createMiddleware().server(({ next }) => {
   return next({ context: { nonce } });
 });
 
+const preconnectSupabase = createMiddleware().server(({ next }) => {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  if (supabaseUrl) {
+    setResponseHeader(
+      "Link",
+      `<${new URL(supabaseUrl).origin}>; rel=preconnect`,
+    );
+  }
+  return next();
+});
+
 const csrf = createCsrfMiddleware({
   filter: (context) => context.handlerType === "serverFn",
 });
 
 export const startInstance = createStart(() => ({
-  requestMiddleware: [csrf, contentSecurityPolicy],
+  requestMiddleware: [csrf, contentSecurityPolicy, preconnectSupabase],
 }));
 
 declare module "@tanstack/react-start" {

@@ -7,6 +7,7 @@ import { ListingGallery } from "./listing-gallery.tsx";
 
 const images: ListingImage[] = [1, 2, 3].map((id) => ({
   url: `/${id}.jpg`,
+  mobileUrl: `/${id}-mobile.jpg`,
   alt: `Photo ${id}`,
 }));
 

@@ -3,8 +3,14 @@ import type { Handle } from "remix/component";
 
 import { Logo } from "./logo.tsx";
 
+const MOBILE_MEDIA = "(max-width: 767px)";
+
 export function ListingPhoto(
-  handle: Handle<{ image: ListingImage | null; class: string }>,
+  handle: Handle<{
+    image: ListingImage | null;
+    class: string;
+    isPriority?: boolean;
+  }>,
 ) {
   return () => {
     let { image } = handle.props;
@@ -16,12 +22,16 @@ export function ListingPhoto(
           <p class="eyebrow text-gray-400">Photos sur demande</p>
         </div>
         {image && (
-          <div
-            role="img"
-            aria-label={image.alt}
-            style={{ backgroundImage: `url(${JSON.stringify(image.url)})` }}
-            class="absolute inset-0 bg-cover bg-center"
-          />
+          <picture>
+            <source media={MOBILE_MEDIA} srcset={image.mobileUrl} />
+            <img
+              src={image.url}
+              alt={image.alt}
+              loading={handle.props.isPriority ? undefined : "lazy"}
+              fetchpriority={handle.props.isPriority ? "high" : undefined}
+              class="absolute inset-0 size-full object-cover"
+            />
+          </picture>
         )}
       </div>
     );

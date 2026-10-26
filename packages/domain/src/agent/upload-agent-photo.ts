@@ -2,7 +2,10 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { z } from "zod";
 
-import { getImagePath } from "../listing-image/get-image-path.ts";
+import {
+  getImagePath,
+  IMMUTABLE_CACHE_SECONDS,
+} from "../listing-image/get-image-path.ts";
 
 export async function uploadAgentPhoto(
   client: SupabaseClient,
@@ -23,6 +26,7 @@ export async function uploadAgentPhoto(
   const path = getImagePath(agentId, file);
   const { error: uploadError } = await bucket.upload(path, file, {
     contentType: file.type,
+    cacheControl: IMMUTABLE_CACHE_SECONDS,
   });
   if (uploadError) throw uploadError;
 

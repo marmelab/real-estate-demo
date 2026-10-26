@@ -8,6 +8,7 @@ export type EnergyClass = z.infer<typeof energyClassSchema>;
 
 export const listingImageSchema = z.object({
   url: z.string(),
+  mobileUrl: z.string(),
   alt: z.string(),
 });
 export type ListingImage = z.infer<typeof listingImageSchema>;
