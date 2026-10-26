@@ -2,6 +2,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { z } from "zod";
 
+import { getMobileImagePath } from "./get-image-path.ts";
+
 export async function deleteListingImage(
   client: SupabaseClient,
   id: number,
@@ -17,6 +19,6 @@ export async function deleteListingImage(
   const { path } = z.object({ path: z.string() }).parse(data);
   const { error: removeError } = await client.storage
     .from("listing-image")
-    .remove([path]);
+    .remove([path, getMobileImagePath(path)]);
   if (removeError) throw removeError;
 }

@@ -4,10 +4,12 @@
   "dockerComposeFile": "compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/remix-v3-demo",
-  "forwardPorts": [3000, 4000, 54321, 54322, 54323, "maildev:1080"],
+  "forwardPorts": [3000, 3001, 4000, 4001, 54321, 54322, 54323, "maildev:1080"],
   "portsAttributes": {
     "3000": { "label": "frontend-tanstack" },
+    "3001": { "label": "frontend-tanstack (caddy)" },
     "4000": { "label": "frontend-remix" },
+    "4001": { "label": "frontend-remix (caddy)" },
     "54321": { "label": "supabase-api" },
     "54322": { "label": "supabase-db" },
     "54323": { "label": "supabase-studio" }

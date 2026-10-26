@@ -43,15 +43,19 @@ export default createController(routes.admin.listings.photos, {
       let found = await findListing(context, context.params.listingId);
       if (!found) return renderListingNotFound(context);
       let { file, error } = readImageFile(context.formData, "file");
-      if (!file) {
+      let mobile = readImageFile(context.formData, "mobile");
+      if (!file || !mobile.file) {
         return renderListingEditPage(context, found, {
           tab: "photos",
-          uploadError: error,
+          uploadError: error ?? mobile.error,
           status: 400,
         });
       }
       try {
-        await uploadListingImage(context.supabase, found.listing.id, file);
+        await uploadListingImage(context.supabase, found.listing.id, {
+          desktop: file,
+          mobile: mobile.file,
+        });
       } catch (uploadError) {
         console.error(uploadError);
         return renderListingEditPage(context, found, {

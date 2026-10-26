@@ -105,6 +105,7 @@ export function PhotoManager(
           <ImageFileInput
             label="Ajouter une photo"
             name="file"
+            mobileName="mobile"
             error={uploadError}
           />
         </form>

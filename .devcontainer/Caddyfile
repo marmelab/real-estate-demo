@@ -1,0 +1,9 @@
+:3001 {
+	encode zstd gzip
+	reverse_proxy localhost:3000
+}
+
+:4001 {
+	encode zstd gzip
+	reverse_proxy localhost:4000
+}

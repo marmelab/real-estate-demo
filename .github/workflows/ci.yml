@@ -41,4 +41,5 @@ jobs:
           HUSKY: 0
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test
+      - run: pnpm -F @remix-v3-demo/frontend-remix build
       - run: pnpm -F @remix-v3-demo/frontend-remix test

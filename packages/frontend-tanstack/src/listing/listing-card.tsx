@@ -7,7 +7,13 @@ import { ArrowRight, MapPin } from "lucide-react";
 import { FavoriteButton } from "../favorite/favorite-button.tsx";
 import { ListingPhoto } from "./listing-photo.tsx";
 
-export function ListingCard({ listing }: { listing: ListingSummary }) {
+export function ListingCard({
+  listing,
+  isPriority,
+}: {
+  listing: ListingSummary;
+  isPriority?: boolean;
+}) {
   const facts = [
     ["Pièces", listing.rooms],
     ["Chambres", listing.bedrooms],
@@ -24,6 +30,7 @@ export function ListingCard({ listing }: { listing: ListingSummary }) {
         <div className="border-obsidian-700 relative overflow-hidden border-b">
           <ListingPhoto
             image={listing.image}
+            isPriority={isPriority}
             className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
           />
           <div className="border-obsidian-700 bg-obsidian-950/85 absolute inset-x-3 bottom-3 flex items-end justify-between gap-2 border p-2">

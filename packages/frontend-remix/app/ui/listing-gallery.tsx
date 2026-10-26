@@ -32,7 +32,11 @@ export function ListingGallery(handle: Handle<{ images: ListingImage[] }>) {
             aria-label={`${index + 1} sur ${images.length}`}
             class="w-full shrink-0 snap-start"
           >
-            <ListingPhoto image={image} class={SLIDE_CLASS} />
+            <ListingPhoto
+              image={image}
+              class={SLIDE_CLASS}
+              isPriority={index === 0}
+            />
           </li>
         ))}
         previousIcon={

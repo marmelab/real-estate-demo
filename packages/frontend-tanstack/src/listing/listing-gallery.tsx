@@ -53,7 +53,11 @@ export function ListingGallery({ images }: { images: ListingImage[] }) {
             aria-label={`${imageIndex + 1} sur ${images.length}`}
             className="w-full shrink-0 snap-start"
           >
-            <ListingPhoto image={image} className={SLIDE_CLASS_NAME} />
+            <ListingPhoto
+              image={image}
+              className={SLIDE_CLASS_NAME}
+              isPriority={imageIndex === 0}
+            />
           </li>
         ))}
       </ul>

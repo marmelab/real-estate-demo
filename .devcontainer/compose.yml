@@ -239,8 +239,15 @@ services:
     restart: unless-stopped
     volumes_from: [workspace]
     working_dir: /workspaces/remix-v3-demo/packages/frontend-tanstack
-    command: ["npm", "run", "dev"]
-    environment:
+    # production builds once then serves the build; development runs the reloading dev server.
+    command:
+      [
+        "sh",
+        "-c",
+        'if [ "$$NODE_ENV" = production ]; then npm run build && npm start; else npm run dev; fi',
+      ]
+    environment: &app-env
+      NODE_ENV: production
       SUPABASE_URL: http://localhost:54321
       SUPABASE_PUBLISHABLE_KEY: *anon-key
       SUPABASE_SERVICE_ROLE_KEY: *service-key
@@ -248,6 +255,16 @@ services:
   frontend-remix:
     <<: *app
     working_dir: /workspaces/remix-v3-demo/packages/frontend-remix
+    environment:
+      <<: *app-env
+      PORT: 4000
+
+  caddy:
+    image: caddy:2.10.2-alpine
+    network_mode: service:workspace
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
 
 volumes:
   db-data:

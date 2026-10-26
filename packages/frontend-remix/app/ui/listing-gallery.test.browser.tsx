@@ -6,6 +6,7 @@ import { ListingGallery } from "./listing-gallery.tsx";
 
 const images = [1, 2, 3].map((index) => ({
   url: `/photo-${index}.jpg`,
+  mobileUrl: `/photo-${index}-mobile.jpg`,
   alt: `Photo ${index}`,
 }));
 
@@ -15,7 +16,7 @@ describe("ListingGallery", () => {
     t.after(cleanup);
 
     assert.deepEqual(
-      { text: container.textContent, photo: $('[role="img"]') },
+      { text: container.textContent, photo: $("img") },
       { text: "Photos sur demande", photo: null },
     );
   });

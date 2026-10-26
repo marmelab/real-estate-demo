@@ -2,7 +2,13 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { z } from "zod";
 
-import { getImagePath } from "./get-image-path.ts";
+import type { ResizedListingImage } from "./resize-listing-image.ts";
+
+import {
+  getImagePath,
+  getMobileImagePath,
+  IMMUTABLE_CACHE_SECONDS,
+} from "./get-image-path.ts";
 
 async function insertImageRow(
   client: SupabaseClient,
@@ -30,17 +36,24 @@ async function insertImageRow(
 export async function uploadListingImage(
   client: SupabaseClient,
   listingId: number,
-  file: File,
+  { desktop, mobile }: ResizedListingImage,
 ): Promise<void> {
   const bucket = client.storage.from("listing-image");
-  const path = getImagePath(listingId, file);
-  const { error } = await bucket.upload(path, file, { contentType: file.type });
-  if (error) throw error;
+  const path = getImagePath(listingId, desktop);
+  const mobilePath = getMobileImagePath(path);
+  const upload = async (filePath: string, file: File) => {
+    const { error } = await bucket.upload(filePath, file, {
+      contentType: file.type,
+      cacheControl: IMMUTABLE_CACHE_SECONDS,
+    });
+    if (error) throw error;
+  };
 
   try {
+    await Promise.all([upload(path, desktop), upload(mobilePath, mobile)]);
     await insertImageRow(client, listingId, path);
-  } catch (insertError) {
-    await bucket.remove([path]);
-    throw insertError;
+  } catch (error) {
+    await bucket.remove([path, mobilePath]);
+    throw error;
   }
 }

@@ -8,7 +8,7 @@
 - **Search**: visitors find listings by city, then refine with facets (budget, property type, bedrooms, rooms, surface, DPE).
 - `/` is the landing page, searching by city and max price; `/search` shows the results with facets.
 - `/immobilier/$city` is an SEO page per target city (Paris, Lyon, Nice, Cannes), listed in `domain` as `TARGET_CITIES`.
-- It is a demo: `robots.txt` disallows every crawler, while pages stay SSR with head meta.
+- It is a demo that is never deployed: `robots.txt` allows every crawler, and pages stay SSR with head meta.
 
 ## Packages
 
@@ -16,7 +16,7 @@
 - `domain`: shared business logic, models, validation and the Supabase data access, shared by both apps.
 - `frontend-tanstack`: the site in React with TanStack Start, Router, Query and Form, plus TanStack Devtools in dev.
 - `frontend-remix`: the site in Remix v3, which renders with `remix/component`, not React.
-- `frontend-remix` compiles Tailwind with `@tailwindcss/cli`, from `app/styles.css` to the gitignored `public/styles.css`.
+- `frontend-remix` compiles Tailwind with `@tailwindcss/cli`, from `app/styles.css` to the gitignored `app/public/styles.css`, served fingerprinted by the asset server.
 - Each app holds both the public site, where visitors browse and search listings, and the admin section.
 - Style both apps with Tailwind CSS, without shadcn/ui.
 
