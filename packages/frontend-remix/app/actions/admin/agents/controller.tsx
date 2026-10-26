@@ -10,6 +10,7 @@ import { createController } from "remix/router";
 
 import type { StaffContext } from "../../../middleware/require-staff.ts";
 import type { InviteState } from "./agents-page.tsx";
+import type { InviteAgentValues } from "./invite-agent-form.tsx";
 
 import { createServiceClient } from "../../../data/service-client.ts";
 import {
@@ -19,10 +20,10 @@ import {
 import { supabaseSession } from "../../../middleware/supabase-session.ts";
 import { routes } from "../../../routes.ts";
 import { getFieldErrors } from "../../../ui/form/get-field-errors.ts";
-import { readText } from "../../../ui/form/read-text.ts";
 import { getSubmitErrorMessage } from "../../../ui/get-submit-error-message.ts";
 import { renderStaffPage } from "../render-admin-page.tsx";
 import { AgentsPage } from "./agents-page.tsx";
+import { EMPTY_INVITE } from "./invite-agent-form.tsx";
 
 async function renderAgents(
   context: StaffContext,
@@ -59,11 +60,9 @@ export default createController(routes.admin.agents, {
     },
     async invite(context) {
       let values = {
-        email: readText(context.formData, "email"),
-        firstName: readText(context.formData, "firstName"),
-        lastName: readText(context.formData, "lastName"),
-        role: readText(context.formData, "role"),
-      };
+        ...EMPTY_INVITE,
+        ...Object.fromEntries(context.formData),
+      } as InviteAgentValues;
       let parsed = s.parseSafe(inviteAgentSchema, values);
       if (!parsed.success) {
         return renderAgents(context, {
